@@ -16,8 +16,10 @@ router.get("/", isLoggedOut, (req, res, next) => {
 });
 
 router.get("/start", isLoggedIn, (req, res, nest) => {
-  //If the user has a family id => rederict to /family/:id
-  User.findByID()
+  User.findById(req.session.currentUser._id)
+  .populate("family")
+  .then(user => )
+  
 })
 
 /* router.get("/family/:id", isLoggedIn, (req, res, nest)){
