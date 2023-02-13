@@ -43,17 +43,16 @@ router.post("/", isLoggedOut, (req, res) => {
   }
 
   //   ! This regular expression checks password for special characters and minimum length
-  /*
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regex.test(password)) {
     res
       .status(400)
-      .render("auth/signup", {
+      .render("/", {
         errorMessage: "Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter."
     });
     return;
   }
-  */
+
 
   // Create a new user - start by hashing the password
   bcrypt
@@ -110,6 +109,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 
   // Search the database for a user with the email submitted in the form
   User.findOne({ email })
+  .populate("family")
     .then((user) => {
       // If the user isn't found, send an error message that user provided wrong credentials
       if (!user) {
@@ -135,8 +135,8 @@ router.post("/login", isLoggedOut, (req, res, next) => {
           // Remove the password field
           delete req.session.currentUser.password;
           // ISSUE! Need user to refer to family id
-          if (user.familyId){
-             res.redirect(`/family/${user.familyId}`);
+          if (user.family._id){
+             res.redirect(`/family/${user.family._id}`);
           } else {
             res.redirect("/start")
           }
