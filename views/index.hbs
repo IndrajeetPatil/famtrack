@@ -1,47 +1,62 @@
-<div class="row">
-  <div class="col">
-    <div class="container align-middle">
-      <h1 class="">Bring your family history to life and explore new connections</h1>
+<div class="container-fluid d-flex flex-column">
+  <div class="row row row-cols-1 row-cols-md-2 d-flex align-items-center flex-grow-1">
+    <div class="col d-flex justify-content-start align-items-center">
+      <div class="containe-fluid m-4">
+        <h1 class="display-5 fw-bold">Family roots run deep with FamTrack</h1>
+        <p class="fs-4">Discover your family history in a whole new way with FamTrack. Our interactive and visually appealing platform makes it easy to uncover new connections, learn about your ancestors, and share your journey with loved ones.</p>
+      </div>
     </div>
-  </div>
-  <div class="col">
-    <div class="container">
-      <form action="/auth/signup" method="POST">
-        <div class="row form-group">
-          <div class="col">
-            <input type="text" class="form-control" id="firstName" placeholder="First name">
+    <div class="col d-flex justify-content-center align-items-center">
+      <div class="container-fluid m-4">
+        <div class="card w-lg-50">
+          <div class="card-body">
+            <h3 class="card-title mb-4">Sign up</h3>
+            <form action="/auth/signup" method="POST">
+              {{!-- First name / Last name --}}
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="firstName" placeholder="First name">
+                    <label for="firstName">First name</label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                    <label for="lastName">Last name</label>
+                  </div>
+                </div>
+              </div>
+
+              {{!-- Username --}}
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="username" placeholder="Username">
+                <label for="username">Username</label>
+              </div>
+
+              {{!-- Email --}}
+              <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" placeholder="Email">
+                <label for="email">Email</label>
+              </div>
+
+              {{!-- Password --}}
+              <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" placeholder="Password">
+                <label for="password">Password</label>
+              </div>
+
+              {{!-- Terms and Conditions --}}
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">I have read and agree to the <a href="#">terms and conditions.</a></label>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
           </div>
-          <div class="col">
-            <input type="text" class="form-control" id="lastName" placeholder="Last name">
-          </div>
         </div>
+      </div>
 
-        <div class="form-group">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">@</span>
-            </div>
-            <input type="text" class="form-control" id="username" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-        </div>
-
-        <div class="form-group">
-          <input type="password" class="form-control" id="password" placeholder="Password">
-        </div>
-
-        <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="hasAgreedToTermsAndConditions">
-          <label class="form-check-label" for="exampleCheck1">I have read and agree to the terms and conditions</label>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Create an account</button>
-
-        <p>Already have an account? <a href="/auth/login">Log in here.</a></p>
-      </form>
     </div>
   </div>
 </div>
