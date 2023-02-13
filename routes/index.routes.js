@@ -18,12 +18,19 @@ router.get("/", isLoggedOut, (req, res, next) => {
 router.get("/start", isLoggedIn, (req, res, nest) => {
   User.findById(req.session.currentUser._id)
   .populate("family")
-  .then(user => )
+  .then(user => {
+    if(user.family._id) {
+      res.redirect(`/family/${user.family._id}`)
+    } else {
+      res.render("start")
+    }
+  })
   
 })
 
-/* router.get("/family/:id", isLoggedIn, (req, res, nest)){
+router.get("/family/:id", isLoggedIn, (req, res, nest)){
+  // render family view?
   
-} */
+} 
 
 module.exports = router;
