@@ -33,14 +33,6 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
     return;
   }
 
-  if (password.length < 6) {
-    res.status(400).render("index", {
-      errorMessage: "Your password needs to be at least 6 characters long.",
-    });
-
-    return;
-  }
-
   // This regular expression checks password for special characters and minimum length
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regex.test(password)) {
@@ -57,7 +49,8 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
     .then((salt) => bcrypt.hash(password, salt))
     .then((hashedPassword) => User.create({ username, email, password: hashedPassword }))
     .then((user) => {
-      // NB!!! possibility for a routing issue here
+      req.session.currentUser = user.toObject();
+      delete req.session.currentUser.password;
       res.redirect("/start");
     })
     .catch((error) => {
