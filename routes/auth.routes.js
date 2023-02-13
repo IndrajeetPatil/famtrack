@@ -21,12 +21,13 @@ router.get("/", isLoggedOut, (req, res) => {
 });
 
 // POST /auth/signup
-router.post("/", isLoggedOut, (req, res) => {
+router.post("/auth/signup", isLoggedOut, (req, res) => {
   const { username, email, password } = req.body;
+  console.log("Is this this:", req.body)
 
   // Check that username, email, and password are provided
   if (username === "" || email === "" || password === "") {
-    res.status(400).render("/", {
+    res.status(400).render("index", {
       errorMessage:
         "All fields are mandatory. Please provide your username, email and password.",
     });
@@ -35,7 +36,7 @@ router.post("/", isLoggedOut, (req, res) => {
   }
 
   if (password.length < 6) {
-    res.status(400).render("/", {
+    res.status(400).render("index", {
       errorMessage: "Your password needs to be at least 6 characters long.",
     });
 
@@ -47,7 +48,7 @@ router.post("/", isLoggedOut, (req, res) => {
   if (!regex.test(password)) {
     res
       .status(400)
-      .render("/", {
+      .render("index", {
         errorMessage: "Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter."
     });
     return;
