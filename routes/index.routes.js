@@ -10,9 +10,12 @@ router.get("/", isLoggedOut, (req, res, next) => {
 });
 
 router.get("/start", isLoggedIn, (req, res, nest) => {
+  //If the user has a family id => rederict to /family/:id
   User.findByID()
 })
 
-router.get("/family/:id", isLoggedIn, (req, res, nest))
+router.get("/family/:id", isLoggedIn, (req, res, nest)){
+  
+}
 
 module.exports = router;
