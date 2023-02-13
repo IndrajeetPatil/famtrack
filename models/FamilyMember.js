@@ -35,29 +35,17 @@ const familyMemberSchema = new mongoose.Schema({
   relationship: {
     type: String,
     required: true,
-    enum: ["Father", "Mother", "Brother", "Sister", "Son", "Daughter"],
+    enum: ["Parent", "Sibling", "Child"],
   },
-  father: {
+  parent: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "FamilyMember",
   },
-  mother: {
+  sibling: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "FamilyMember",
   },
-  brother: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "FamilyMember",
-  },
-  sister: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "FamilyMember",
-  },
-  son: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "FamilyMember",
-  },
-  daughter: {
+  child: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "FamilyMember",
   },

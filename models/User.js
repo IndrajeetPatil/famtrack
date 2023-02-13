@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    family: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Family",
+    },
   },
   {
     timestamps: true,
