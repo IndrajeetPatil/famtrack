@@ -21,12 +21,12 @@ router.get("/", isLoggedOut, (req, res) => {
 });
 
 // POST /auth/signup
-router.post("auth/signup", isLoggedOut, (req, res) => {
+router.post("/", isLoggedOut, (req, res) => {
   const { username, email, password } = req.body;
 
   // Check that username, email, and password are provided
   if (username === "" || email === "" || password === "") {
-    res.status(400).render("auth/signup", {
+    res.status(400).render("/", {
       errorMessage:
         "All fields are mandatory. Please provide your username, email and password.",
     });
@@ -134,9 +134,15 @@ router.post("/login", isLoggedOut, (req, res, next) => {
           req.session.currentUser = user.toObject();
           // Remove the password field
           delete req.session.currentUser.password;
+          // ISSUE! Need user to refer to family id
+          if (user.familyId){
+             res.redirect(`/family/${user.familyId}`);
+          } else {
+            res.redirect("/start")
+          }
+        }) 
 
-          res.redirect("/");
-        })
+        
         .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
     })
     .catch((err) => next(err));
