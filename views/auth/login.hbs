@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-body">
           <h3 class="card-title mb-4">Log in</h3>
-          <form action="/auth/login" method="GET">
+          <form class="mb-0" action="/auth/login" method="GET">
             <div class="form-floating mb-3">
               <input type="text" class="form-control" id="username" placeholder="Username">
               <label for="username">Username</label>
@@ -16,8 +16,9 @@
             </div>
 
             <div class="d-grid gap-2">
-              <button class="btn btn-primary py-3" type="submit">Log in</button>
+              <button class="btn btn-primary py-3 mb-3" type="submit">Log in</button>
             </div>
+            <p class="mb-0"><small>Don't have an account yet? <a href="/">Sign up here.</a></small></p>
           </form>
         </div>
       </div>
