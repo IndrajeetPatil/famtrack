@@ -23,19 +23,12 @@ router.get("/", isLoggedOut, (req, res) => {
 // POST /auth/signup
 router.post("/auth/signup", isLoggedOut, (req, res) => {
   const { username, email, password } = req.body;
+  console.log(req.body)
 
   // Check that username, email, and password are provided
   if (username === "" || email === "" || password === "") {
     res.status(400).render("index", {
       errorMessage: "All fields are mandatory. Please provide your username, email and password.",
-    });
-
-    return;
-  }
-
-  if (password.length < 6) {
-    res.status(400).render("index", {
-      errorMessage: "Your password needs to be at least 6 characters long.",
     });
 
     return;
@@ -57,7 +50,8 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
     .then((salt) => bcrypt.hash(password, salt))
     .then((hashedPassword) => User.create({ username, email, password: hashedPassword }))
     .then((user) => {
-      // NB!!! possibility for a routing issue here
+      req.session.currentUser = user.toObject();
+      delete req.session.currentUser.password;
       res.redirect("/start");
     })
     .catch((error) => {
@@ -74,10 +68,10 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
 });
 
 // GET /auth/login
-router.get("/login", isLoggedOut, (req, res) => res.render("auth/login"));
+router.get("/auth/login", isLoggedOut, (req, res) => res.render("auth/login"));
 
 // POST /auth/login
-router.post("/login", isLoggedOut, (req, res, next) => {
+router.post("/auth/login", isLoggedOut, (req, res, next) => {
   const { username, email, password } = req.body;
 
   // Check that username, email, and password are provided
