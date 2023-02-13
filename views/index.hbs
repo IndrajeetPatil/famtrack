@@ -3,7 +3,9 @@
     <div class="col d-flex justify-content-start align-items-center">
       <div class="containe-fluid m-4">
         <h1 class="display-5 fw-bold">Family roots run deep with FamTrack</h1>
-        <p class="fs-4">Discover your family history in a whole new way with FamTrack. Our interactive and visually appealing platform makes it easy to uncover new connections, learn about your ancestors, and share your journey with loved ones.</p>
+        <p class="fs-4">Discover your family history in a whole new way with FamTrack. Our interactive and visually
+          appealing platform makes it easy to uncover new connections, learn about your ancestors, and share your
+          journey with loved ones.</p>
       </div>
     </div>
     <div class="col d-flex justify-content-center align-items-center">
@@ -12,44 +14,45 @@
           <div class="card-body">
             <h3 class="card-title mb-4">Sign up</h3>
             <form action="/auth/signup" method="POST">
-              {{!-- First name / Last name --}}
+              {{! First name / Last name }}
               <div class="row">
                 <div class="col">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="firstName" placeholder="First name">
+                    <input type="text" class="form-control" id="firstName" placeholder="First name" />
                     <label for="firstName">First name</label>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" />
                     <label for="lastName">Last name</label>
                   </div>
                 </div>
               </div>
 
-              {{!-- Username --}}
+              {{! Username }}
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
                 <label for="username">Username</label>
               </div>
 
-              {{!-- Email --}}
+              {{! Email }}
               <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="email" name="email"  placeholder="Email">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" />
                 <label for="email">Email</label>
               </div>
 
-              {{!-- Password --}}
+              {{! Password }}
               <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
                 <label for="password">Password</label>
               </div>
 
-              {{!-- Terms and Conditions --}}
+              {{! Terms and Conditions }}
               <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1">I have read and agree to the <a href="#">terms and conditions.</a></label>
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+                <label class="form-check-label" for="exampleCheck1">I have read and agree to the
+                  <a href="#">terms and conditions.</a></label>
               </div>
               <button type="submit" class="btn btn-primary">Submit</button>
             </form>
