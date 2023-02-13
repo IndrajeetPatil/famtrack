@@ -15,13 +15,13 @@ const User = require("../models/User.model");
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-// GET /auth/signup
-router.get("/signup", isLoggedOut, (req, res) => {
-  res.render("auth/signup");
+// GET index page
+router.get("/", isLoggedOut, (req, res) => {
+  res.render("index");
 });
 
 // POST /auth/signup
-router.post("/signup", isLoggedOut, (req, res) => {
+router.post("auth/signup", isLoggedOut, (req, res) => {
   const { username, email, password } = req.body;
 
   // Check that username, email, and password are provided
@@ -35,7 +35,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
   }
 
   if (password.length < 6) {
-    res.status(400).render("auth/signup", {
+    res.status(400).render("/", {
       errorMessage: "Your password needs to be at least 6 characters long.",
     });
 
@@ -64,13 +64,14 @@ router.post("/signup", isLoggedOut, (req, res) => {
       return User.create({ username, email, password: hashedPassword });
     })
     .then((user) => {
-      res.redirect("/auth/login");
+      // NB!!! possibility for a routing issue here
+      res.redirect("/start");
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.status(500).render("auth/signup", { errorMessage: error.message });
+        res.status(500).render("/", { errorMessage: error.message });
       } else if (error.code === 11000) {
-        res.status(500).render("auth/signup", {
+        res.status(500).render("/", {
           errorMessage:
             "Username and email need to be unique. Provide a valid username or email.",
         });
