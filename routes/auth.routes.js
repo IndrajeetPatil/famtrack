@@ -23,13 +23,11 @@ router.get("/", isLoggedOut, (req, res) => {
 // POST /auth/signup
 router.post("/auth/signup", isLoggedOut, (req, res) => {
   const { username, email, password } = req.body;
-  console.log("Is this this:", req.body)
 
   // Check that username, email, and password are provided
   if (username === "" || email === "" || password === "") {
     res.status(400).render("index", {
-      errorMessage:
-        "All fields are mandatory. Please provide your username, email and password.",
+      errorMessage: "All fields are mandatory. Please provide your username, email and password.",
     });
 
     return;
@@ -43,26 +41,21 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
     return;
   }
 
-  //   ! This regular expression checks password for special characters and minimum length
+  // This regular expression checks password for special characters and minimum length
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regex.test(password)) {
-    res
-      .status(400)
-      .render("index", {
-        errorMessage: "Password needs to have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter."
+    res.status(400).render("index", {
+      errorMessage:
+        "Password needs to have at least 6 characters and one number, one lowercase and one uppercase letter.",
     });
     return;
   }
-
 
   // Create a new user - start by hashing the password
   bcrypt
     .genSalt(saltRounds)
     .then((salt) => bcrypt.hash(password, salt))
-    .then((hashedPassword) => {
-      // Create a user and save it in the database
-      return User.create({ username, email, password: hashedPassword });
-    })
+    .then((hashedPassword) => User.create({ username, email, password: hashedPassword }))
     .then((user) => {
       // NB!!! possibility for a routing issue here
       res.redirect("/start");
@@ -72,8 +65,7 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
         res.status(500).render("/", { errorMessage: error.message });
       } else if (error.code === 11000) {
         res.status(500).render("/", {
-          errorMessage:
-            "Username and email need to be unique. Provide a valid username or email.",
+          errorMessage: "Username and email need to be unique. Provide a valid username or email.",
         });
       } else {
         next(error);
@@ -82,9 +74,7 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
 });
 
 // GET /auth/login
-router.get("/login", isLoggedOut, (req, res) => {
-  res.render("auth/login");
-});
+router.get("/login", isLoggedOut, (req, res) => res.render("auth/login"));
 
 // POST /auth/login
 router.post("/login", isLoggedOut, (req, res, next) => {
@@ -93,8 +83,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
   // Check that username, email, and password are provided
   if (username === "" || email === "" || password === "") {
     res.status(400).render("auth/login", {
-      errorMessage:
-        "All fields are mandatory. Please provide username, email and password.",
+      errorMessage: "All fields are mandatory. Please provide username, email and password.",
     });
 
     return;
@@ -110,13 +99,11 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 
   // Search the database for a user with the email submitted in the form
   User.findOne({ email })
-  .populate("family")
+    .populate("family")
     .then((user) => {
       // If the user isn't found, send an error message that user provided wrong credentials
       if (!user) {
-        res
-          .status(400)
-          .render("auth/login", { errorMessage: "Wrong credentials." });
+        res.status(400).render("auth/login", { errorMessage: "Wrong credentials." });
         return;
       }
 
@@ -125,26 +112,17 @@ router.post("/login", isLoggedOut, (req, res, next) => {
         .compare(password, user.password)
         .then((isSamePassword) => {
           if (!isSamePassword) {
-            res
-              .status(400)
-              .render("auth/login", { errorMessage: "Wrong credentials." });
-            return;
+            return res.status(400).render("auth/login", { errorMessage: "Wrong credentials." });
           }
 
-          // Add the user object to the session object
+          // Add the user object (minus password) to the session object
           req.session.currentUser = user.toObject();
-          // Remove the password field
           delete req.session.currentUser.password;
-          // ISSUE! Need user to refer to family id
-          if (user.family._id){
-             res.redirect(`/family/${user.family._id}`);
-          } else {
-            res.redirect("/start")
-          }
-        }) 
 
-        
-        .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
+          // ISSUE! Need user to refer to family id
+          user.family._id ? res.redirect(`/family/${user.family._id}`) : res.redirect("/start");
+        })
+        .catch((err) => next(err));
     })
     .catch((err) => next(err));
 });
@@ -153,8 +131,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 router.get("/logout", isLoggedIn, (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      res.status(500).render("auth/logout", { errorMessage: err.message });
-      return;
+      return res.status(500).render("auth/logout", { errorMessage: err.message });
     }
 
     res.redirect("/");
