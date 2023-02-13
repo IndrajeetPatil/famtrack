@@ -9,7 +9,6 @@ const User = require("../models/User");
 const FamilyMember = require("../models/FamilyMember");
 const LifeEvent = require("../models/LifeEvent");
 
-
 /* GET home page */
 router.get("/", isLoggedOut, (req, res, next) => {
   res.render("index");
@@ -17,20 +16,18 @@ router.get("/", isLoggedOut, (req, res, next) => {
 
 router.get("/start", isLoggedIn, (req, res, nest) => {
   User.findById(req.session.currentUser._id)
-  .populate("family")
-  .then(user => {
-    if(user.family._id) {
-      res.redirect(`/family/${user.family._id}`)
-    } else {
-      res.render("start")
-    }
-  })
-  
-})
+    .populate("family")
+    .then((user) => {
+      if (user.family._id) {
+        res.redirect(`/family/${user.family._id}`);
+      } else {
+        res.render("start");
+      }
+    });
+});
 
-router.get("/family/:id", isLoggedIn, (req, res, nest)){
+router.get("/family/:id", isLoggedIn, (req, res, nest) => {
   // render family view?
-  
-} 
+});
 
 module.exports = router;
