@@ -12,3 +12,5 @@ const familySchema = new mongoose.Schema({
     },
   ],
 });
+
+const Family = mongoose.model("Family", familySchema);
