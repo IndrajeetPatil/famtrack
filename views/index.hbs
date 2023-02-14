@@ -5,9 +5,10 @@
     <div class="col d-flex justify-content-start align-items-center">
       <div class="containe-fluid m-4">
         <h1 class="display-5 fw-bold">Family roots run deep with FamTrack</h1>
-        <p class="fs-4">Discover your family history in a whole new way with FamTrack. Our interactive and visually
-          appealing platform makes it easy to uncover new connections, learn about your ancestors, and share your
-          journey with loved ones.</p>
+        <p class="fs-4">
+          Discover your family history in a whole new way with FamTrack. Our interactive and visually appealing platform
+          makes it easy to uncover new connections, learn about your ancestors, and share your journey with loved ones.
+        </p>
       </div>
     </div>
 
@@ -63,17 +64,17 @@
 
               {{! Terms and Conditions }}
               <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                <label class="form-check-label" for="exampleCheck1">I have read and agree to the
+                <input type="checkbox" class="form-check-input" name="terms" id="terms" required />
+                <label class="form-check-label" for="terms">I have read and agree to the
                   <a href="#">terms and conditions.</a></label>
               </div>
 
               <button type="submit" class="btn btn-primary mb-3">Submit</button>
-              
+
               {{#if errorMessage}}
-              <div class="alert alert-danger" role="alert">
-                {{errorMessage}}
-              </div>
+                <div class="alert alert-danger" role="alert">
+                  {{errorMessage}}
+                </div>
               {{/if}}
 
               <p class="mb-0"><small>Already have an account? <a href="/auth/login">Log in here.</a></small></p>
