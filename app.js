@@ -27,17 +27,17 @@ app.use(
 app.locals.appTitle = "Created with IronLauncher";
 
 // 👇 Start handling routes here
-const indexRoutes = require("./routes/index");
+const indexRoutes = require("./routes/index.js");
 app.use("/", indexRoutes);
 
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/auth.js");
 app.use("/", authRoutes);
 
-const familyRoutes = require("./routes/family");
+const familyRoutes = require("./routes/family.js");
 app.use("/", familyRoutes);
 
-const FamilyMemberRoutes = require("./routes/family-member");
-app.use("/", FamilyMemberRoutes);
+const familyMemberRoutes = require("./routes/family-member.js");
+app.use("/", familyMemberRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
