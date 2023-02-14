@@ -111,9 +111,8 @@ router.post("/auth/login", isLoggedOut, (req, res, next) => {
           // Add the user object (minus password) to the session object
           req.session.currentUser = user.toObject();
           delete req.session.currentUser.password;
-          res.redirect("/start");
-          // Need user to refer to family id
-          // user.family._id ? res.redirect(`/family/${user.family._id}`) : res.redirect("/start");
+
+          user.family ? res.redirect(`/family/${user.family._id}`) : res.redirect("/start");
         })
         .catch((err) => next(err));
     })

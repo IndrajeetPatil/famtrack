@@ -14,21 +14,13 @@ router.get("/", isLoggedOut, (req, res, next) => {
 });
 
 router.get("/start", isLoggedIn, (req, res, nest) => {
-  res.render("start")
-
-  /*   User.findById(req.session.currentUser._id)
+  User.findById(req.session.currentUser._id)
     .populate("family")
     .then((user) => {
-      if (user.family._id) {
-        res.redirect(`/family/${user.family._id}`);
-      } else {
-        res.render("start");
-      }
-    }); */
+      user.family ? res.redirect(`/family/${user.family._id}`) : res.render("start");
+    })
+    .catch(err => console.log(err)) 
 });
 
-/* router.get("/family/:id", isLoggedIn, (req, res, nest) => {
-  // render family view?
-}); */
 
 module.exports = router;
