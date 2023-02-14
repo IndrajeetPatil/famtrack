@@ -55,6 +55,11 @@
                   <a href="#">terms and conditions.</a></label>
               </div>
               <button type="submit" class="btn btn-primary mb-3">Submit</button>
+
+                {{#if errorMessage}}
+                  <p>{{errorMessage}}</p>
+                {{/if}}
+
               <p class="mb-0"><small>Already have an account? <a href="/auth/login">Log in here.</a></small></p>
             </form>
           </div>

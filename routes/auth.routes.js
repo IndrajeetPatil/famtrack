@@ -23,7 +23,6 @@ router.get("/", isLoggedOut, (req, res) => {
 // POST /auth/signup
 router.post("/auth/signup", isLoggedOut, (req, res) => {
   const { username, email, password } = req.body;
-  console.log(req.body)
 
   // Check that username, email, and password are provided
   if (username === "" || email === "" || password === "") {
@@ -93,7 +92,6 @@ router.post("/auth/login", isLoggedOut, (req, res, next) => {
 
   // Search the database for a user with the email submitted in the form
   User.findOne({ username })
-    .populate("family")
     .then((user) => {
       console.log(user)
       // If the user isn't found, send an error message that user provided wrong credentials
@@ -128,7 +126,6 @@ router.get("/logout", isLoggedIn, (req, res) => {
     if (err) {
       return res.status(500).render("auth/logout", { errorMessage: err.message });
     }
-
     res.redirect("/");
   });
 });

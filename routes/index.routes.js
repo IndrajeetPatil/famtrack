@@ -3,7 +3,7 @@ const router = express.Router();
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-const Family = require("../models/Family");
+//const Family = require("../models/Family");
 const User = require("../models/User");
 const FamilyMember = require("../models/FamilyMember");
 const LifeEvent = require("../models/LifeEvent");
@@ -27,8 +27,8 @@ router.get("/start", isLoggedIn, (req, res, nest) => {
     }); */
 });
 
-router.get("/family/:id", isLoggedIn, (req, res, nest) => {
+/* router.get("/family/:id", isLoggedIn, (req, res, nest) => {
   // render family view?
-});
+}); */
 
 module.exports = router;

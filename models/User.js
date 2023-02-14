@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema(
     family: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Family",
-      default : true,
     },
   },
   {
@@ -31,5 +30,4 @@ const userSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model("User", userSchema);
-
 module.exports = User;
