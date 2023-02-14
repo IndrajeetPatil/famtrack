@@ -3,7 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const duplicateKeyErrorCode = 11000;
 
-const errors = require("../utils/errors");
+const { errors, signalBadInput } = require("../utils/errors");
 
 // ℹ️ Handles password encryption
 const bcrypt = require("bcrypt");
