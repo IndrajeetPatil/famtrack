@@ -1,0 +1,116 @@
+<div>
+  <h2>Add Family Member</h2>
+</div>
+
+<form action="/family/member/create" method="post">
+<h4>Add Details About the New Family Member</h4>
+  {{! First name / Last name }}
+  <div>
+    <label for="firstName">First name:</label>
+    <input
+      type="text"
+      id="firstName"
+      name="firstName"
+      placeholder="First Name"
+      required
+    />
+
+    <label for="lastName">Last name:</label>
+    <input
+      type="text"
+      id="lastName"
+      name="lastName"
+      placeholder="Last Name"
+      required
+    />
+  </div>
+
+  {{! Sex }}
+
+  <label for="sex">Sex:</label>
+  <select id="sex" name="sex">
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="non-binary">Non-binary</option>
+  </select>
+
+  {{! Dates and locations (birth/death) }}
+  <div>
+    <label for="birth">Birth date:</label>
+    <input
+      type="date"
+      id="birth"
+      name="birth"
+      value="2000-01-01"
+      min="0000-00-00"
+      max="3000-12-12"
+    />
+  </div>
+  <div>
+    {{! TODO: Should link to mapbox for places  }}
+    <label for="placeOfBirth">Place of Birth</label>
+    <input
+      type="text"
+      name="placeOfBirth"
+      id="placeOfBirth"
+      placeholder="Berlin"
+    />
+  </div>
+
+  <div>
+    <label for="death">Death Date:</label>
+    <input
+      type="date"
+      id="death"
+      name="death"
+      value="2000-01-01"
+      min="0000-00-00"
+      max="3000-12-12"
+    />
+  </div>
+  <div>
+    {{! TODO: Should link to mapbox for places  }}
+    <label for="placeOfDeath">Place of Death</label>
+    <input
+      type="text"
+      name="placeOfDeath"
+      id="placeOfDeath"
+      placeholder="Berlin"
+    />
+  </div>
+
+  {{! Images }}
+  {{! Will most likely be an issue with cloudinary and db here }}
+  <div>
+    <label for="avatar">Upload an Image:</label>
+    <input
+      type="file"
+      id="avatar"
+      name="avatar"
+      accept="image/png, image/jpeg"
+    />
+  </div>
+
+  <h4>Add Relations to Existing Family Members</h4>
+
+  {{! Family members }}
+  {{! https://www.w3schools.com/howto/howto_js_autocomplete.asp 
+    a way to autocomplete searches from db. Still need to be able to add several members}}
+    <h5>Parents:</h5>
+  <div class="autocomplete" style="width:300px;">
+    <input id="parent" type="text" name="parent" placeholder="Dad" />
+    <input type="submit" />
+  </div>
+  
+      <h5>Siblings:</h5>
+  <div class="autocomplete" style="width:300px;">
+    <input id="sibling" type="text" name="siblin" placeholder="Sister" />
+    <input type="submit" />
+  </div>
+
+  <h5>Siblings:</h5>
+  <div class="autocomplete" style="width:300px;">
+    <input id="child" type="text" name="child" placeholder="Child" />
+    <input type="submit" />
+  </div>
+</form>

@@ -11,7 +11,7 @@ const LifeEvent = require("../models/LifeEvent");
 const { uploader, cloudinary } = require("../config/cloudinary");
 
 /* GET home page */
-router.get("/", isLoggedOut, (req, res, next) => res.render("index"));
+router.get("/", isLoggedOut, (req, res, next) => res.render("member/create"));
 
 router.get("/start", isLoggedIn, (req, res, nest) => {
   User.findById(req.session.currentUser._id)
