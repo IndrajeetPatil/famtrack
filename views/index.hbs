@@ -1,5 +1,6 @@
 <div class="container-fluid d-flex flex-column">
-  <div class="row row row-cols-1 row-cols-md-2 d-flex align-items-center flex-grow-1">
+
+  <div class="row row-cols-1 row-cols-md-3 d-flex align-items-center flex-grow-1">
 
     <div class="col d-flex justify-content-start align-items-center">
       <div class="containe-fluid m-4">
@@ -68,6 +69,12 @@
               </div>
 
               <button type="submit" class="btn btn-primary mb-3">Submit</button>
+              
+              {{#if errorMessage}}
+              <div class="alert alert-danger" role="alert">
+                {{errorMessage}}
+              </div>
+              {{/if}}
 
               <p class="mb-0"><small>Already have an account? <a href="/auth/login">Log in here.</a></small></p>
 
@@ -76,7 +83,6 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
