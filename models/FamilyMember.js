@@ -26,6 +26,9 @@ const familyMemberSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  imgName: String,
+  imgPath: String,
+  publicId: String,
   lifeEvents: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -48,6 +51,10 @@ const familyMemberSchema = new mongoose.Schema({
   child: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "FamilyMember",
+  },
+  family: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Family",
   },
 });
 
