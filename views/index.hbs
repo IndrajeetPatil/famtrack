@@ -1,5 +1,6 @@
 <div class="container-fluid d-flex flex-column">
   <div class="row row row-cols-1 row-cols-md-2 d-flex align-items-center flex-grow-1">
+
     <div class="col d-flex justify-content-start align-items-center">
       <div class="containe-fluid m-4">
         <h1 class="display-5 fw-bold">Family roots run deep with FamTrack</h1>
@@ -8,23 +9,27 @@
           journey with loved ones.</p>
       </div>
     </div>
+
     <div class="col d-flex justify-content-center align-items-center">
       <div class="container-fluid m-4">
         <div class="card">
           <div class="card-body">
+
             <h3 class="card-title mb-4">Sign up</h3>
+
             <form class="mb-0" action="/auth/signup" method="POST">
+
               {{! First name / Last name }}
               <div class="row">
                 <div class="col">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="firstName" placeholder="First name" />
+                    <input type="text" class="form-control" id="firstName" placeholder="First name" required />
                     <label for="firstName">First name</label>
                   </div>
                 </div>
                 <div class="col">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" />
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" required />
                     <label for="lastName">Last name</label>
                   </div>
                 </div>
@@ -32,19 +37,26 @@
 
               {{! Username }}
               <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username" required />
                 <label for="username">Username</label>
               </div>
 
               {{! Email }}
               <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email" />
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required />
                 <label for="email">Email</label>
               </div>
 
               {{! Password }}
               <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
                 <label for="password">Password</label>
               </div>
 
@@ -54,9 +66,13 @@
                 <label class="form-check-label" for="exampleCheck1">I have read and agree to the
                   <a href="#">terms and conditions.</a></label>
               </div>
+
               <button type="submit" class="btn btn-primary mb-3">Submit</button>
+
               <p class="mb-0"><small>Already have an account? <a href="/auth/login">Log in here.</a></small></p>
+
             </form>
+
           </div>
         </div>
       </div>

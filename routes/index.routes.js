@@ -11,19 +11,14 @@ const LifeEvent = require("../models/LifeEvent");
 const { uploader, cloudinary } = require("../config/cloudinary");
 
 /* GET home page */
-router.get("/", isLoggedOut, (req, res, next) => {
-  res.render("index");
-});
+router.get("/", isLoggedOut, (req, res, next) => res.render("index"));
 
 router.get("/start", isLoggedIn, (req, res, nest) => {
   User.findById(req.session.currentUser._id)
     .populate("family")
-    .then((user) => {
-      user.family ? res.redirect(`/family/${user.family._id}`) : res.render("start");
-    })
-    .catch(err => console.log(err)) 
+    .then((user) => (user.family ? res.redirect(`/family/${user.family._id}`) : res.render("start")))
+    .catch((err) => console.log(err));
 });
-
 
 // this is assuming HTML looks like the following:
 // <input type="file" name="family-member-photo">

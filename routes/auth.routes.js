@@ -16,9 +16,7 @@ const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 // GET index page
-router.get("/", isLoggedOut, (req, res) => {
-  res.render("index");
-});
+router.get("/", isLoggedOut, (req, res) => res.render("index"));
 
 // POST /auth/signup
 router.post("/auth/signup", isLoggedOut, (req, res) => {
@@ -26,24 +24,21 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
 
   // Check that username, email, and password are provided
   if (username === "" || email === "" || password === "") {
-    res.status(400).render("index", {
-      errorMessage: "All fields are mandatory. Please provide your username, email and password.",
+    return res.status(400).render("index", {
+      errorMessage: "All fields are mandatory. Please provide your username, email, and password.",
     });
-
-    return;
   }
 
   // This regular expression checks password for special characters and minimum length
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regex.test(password)) {
-    res.status(400).render("index", {
+    return res.status(400).render("index", {
       errorMessage:
         "Password needs to have at least 6 characters and one number, one lowercase and one uppercase letter.",
     });
-    return;
   }
 
-  // Create a new user - start by hashing the password
+  // Create a new user in the database
   bcrypt
     .genSalt(saltRounds)
     .then((salt) => bcrypt.hash(password, salt))
@@ -75,11 +70,9 @@ router.post("/auth/login", isLoggedOut, (req, res, next) => {
 
   // Check that username and password are provided
   if (username === "" || password === "") {
-    res.status(400).render("auth/login", {
+    return res.status(400).render("auth/login", {
       errorMessage: "All fields are mandatory. Please provide username and password.",
     });
-
-    return;
   }
 
   // Here we use the same logic as above
@@ -90,14 +83,14 @@ router.post("/auth/login", isLoggedOut, (req, res, next) => {
     });
   }
 
-  // Search the database for a user with the email submitted in the form
+  // Check if the user exists in the database using email
   User.findOne({ username })
     .then((user) => {
-      console.log(user)
+      console.log(user);
       // If the user isn't found, send an error message that user provided wrong credentials
+      // TODO: Should we provide a way for users to reset their password? (very low priority)
       if (!user) {
-        res.status(400).render("auth/login", { errorMessage: "Wrong credentials." });
-        return;
+        return res.status(400).render("auth/login", { errorMessage: "Wrong credentials." });
       }
 
       // If user is found based on the username, check if the in putted password matches the one saved in the database

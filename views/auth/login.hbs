@@ -4,25 +4,37 @@
       <div class="card">
         <div class="card-body">
           <h3 class="card-title mb-4">Log in</h3>
+
           <form class="mb-0" action="/auth/login" method="POST">
+
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" name="username" id="username" placeholder="Username">
+              <input type="text" class="form-control" name="username" id="username" placeholder="Username" required />
               <label for="username">Username</label>
             </div>
 
             <div class="form-floating mb-3">
-              <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                id="password"
+                placeholder="Password"
+                required
+              />
               <label for="password">Password</label>
             </div>
 
             <div class="d-grid gap-2">
               <button class="btn btn-primary py-3 mb-3" type="submit">Log in</button>
             </div>
+
             <p class="mb-0"><small>Don't have an account yet? <a href="/">Sign up here.</a></small></p>
+
           </form>
+
         </div>
       </div>
     </div>
   </div>
-  
+
 </div>
