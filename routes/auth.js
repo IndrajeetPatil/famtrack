@@ -56,7 +56,13 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
       delete req.session.currentUser.password;
       res.redirect("/start");
     })
-    .catch((error) => next(error));
+    .catch((error) => {
+      if (error instanceof mongoose.Error.ValidationError) {
+        res.status(500).render("index", { errorMessage: error.message });
+      } else {
+        next(error);
+      }
+    });
 });
 
 // GET /auth/login
