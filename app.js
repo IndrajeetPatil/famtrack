@@ -24,7 +24,7 @@ app.use(
   })
 );
 
-app.locals.appTitle = "Created with IronLauncher";
+app.locals.appTitle = "FamTrack";
 
 // 👇 Start handling routes here
 const indexRoutes = require("./routes/index.js");
