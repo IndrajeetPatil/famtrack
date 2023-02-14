@@ -56,9 +56,9 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.status(500).render("/", { errorMessage: error.message });
+        res.status(500).render("index", { errorMessage: error.message });
       } else if (error.code === 11000) {
-        res.status(500).render("/", {
+        res.status(500).render("index", {
           errorMessage: "Username and email need to be unique. Provide a valid username or email.",
         });
       } else {
@@ -72,12 +72,12 @@ router.get("/auth/login", isLoggedOut, (req, res) => res.render("auth/login"));
 
 // POST /auth/login
 router.post("/auth/login", isLoggedOut, (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, password } = req.body;
 
-  // Check that username, email, and password are provided
-  if (username === "" || email === "" || password === "") {
+  // Check that username and password are provided
+  if (username === "" || password === "") {
     res.status(400).render("auth/login", {
-      errorMessage: "All fields are mandatory. Please provide username, email and password.",
+      errorMessage: "All fields are mandatory. Please provide username and password.",
     });
 
     return;
@@ -92,9 +92,10 @@ router.post("/auth/login", isLoggedOut, (req, res, next) => {
   }
 
   // Search the database for a user with the email submitted in the form
-  User.findOne({ email })
+  User.findOne({ username })
     .populate("family")
     .then((user) => {
+      console.log(user)
       // If the user isn't found, send an error message that user provided wrong credentials
       if (!user) {
         res.status(400).render("auth/login", { errorMessage: "Wrong credentials." });
@@ -112,9 +113,9 @@ router.post("/auth/login", isLoggedOut, (req, res, next) => {
           // Add the user object (minus password) to the session object
           req.session.currentUser = user.toObject();
           delete req.session.currentUser.password;
-
-          // ISSUE! Need user to refer to family id
-          user.family._id ? res.redirect(`/family/${user.family._id}`) : res.redirect("/start");
+          res.redirect("/start");
+          // Need user to refer to family id
+          // user.family._id ? res.redirect(`/family/${user.family._id}`) : res.redirect("/start");
         })
         .catch((err) => next(err));
     })

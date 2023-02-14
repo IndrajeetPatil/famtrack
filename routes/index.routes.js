@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
@@ -15,7 +14,9 @@ router.get("/", isLoggedOut, (req, res, next) => {
 });
 
 router.get("/start", isLoggedIn, (req, res, nest) => {
-  User.findById(req.session.currentUser._id)
+  res.render("start")
+
+  /*   User.findById(req.session.currentUser._id)
     .populate("family")
     .then((user) => {
       if (user.family._id) {
@@ -23,7 +24,7 @@ router.get("/start", isLoggedIn, (req, res, nest) => {
       } else {
         res.render("start");
       }
-    });
+    }); */
 });
 
 router.get("/family/:id", isLoggedIn, (req, res, nest) => {

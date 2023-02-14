@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
     family: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Family",
+      default : true,
     },
   },
   {
