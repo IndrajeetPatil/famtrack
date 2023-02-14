@@ -1,17 +1,16 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require("mongoose");
+const duplicateKeyErrorCode = 11000;
 
 // ℹ️ Handles password encryption
 const bcrypt = require("bcrypt");
-const mongoose = require("mongoose");
-
-// How many rounds should bcrypt run the salt (default - 10 rounds)
 const saltRounds = 10;
 
-// Require the User model in order to interact with the database
+// Require needed models in order to use the database functions
 const User = require("../models/User");
 
-// Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
+// Require needed middleware to control access to specific routes
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
@@ -28,6 +27,23 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
       errorMessage: "All fields are mandatory. Please provide your username, email, and password.",
     });
   }
+
+  // Validate uniqueness of username and email
+  User.findOne({ username }).then((user) => {
+    if (user) {
+      return res.status(400).render("index", {
+        errorMessage: "Username already exists. Please provide a different username.",
+      });
+    }
+  });
+
+  User.findOne({ email }).then((user) => {
+    if (user) {
+      return res.status(400).render("index", {
+        errorMessage: "Email already exists. Please provide a different email.",
+      });
+    }
+  });
 
   // This regular expression checks password for special characters and minimum length
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
@@ -51,7 +67,7 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
         res.status(500).render("index", { errorMessage: error.message });
-      } else if (error.code === 11000) {
+      } else if (error.code === duplicateKeyErrorCode) {
         res.status(500).render("index", {
           errorMessage: "Username and email need to be unique. Provide a valid username or email.",
         });
@@ -86,7 +102,6 @@ router.post("/auth/login", isLoggedOut, (req, res, next) => {
   // Check if the user exists in the database using email
   User.findOne({ username })
     .then((user) => {
-      console.log(user);
       // If the user isn't found, send an error message that user provided wrong credentials
       // TODO: Should we provide a way for users to reset their password? (very low priority)
       if (!user) {
