@@ -30,6 +30,9 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
     return signalBadInput(res, "index", errors.mandatorySignupFieldsMissing);
   }
 
+  // Validate user has agreed to terms and conditions
+  if (req.body.terms !== "on") return signalBadInput(res, "index", errors.termsNotAccepted);
+
   // Validate uniqueness of username and email
   User.findOne({ username }).then((user) => {
     if (user) return signalBadInput(res, "index", errors.duplicateUsername);

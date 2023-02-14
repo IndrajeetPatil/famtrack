@@ -5,6 +5,9 @@ const errors = {
   duplicateEmail: {
     errorMessage: "Email already exists. Please provide a different email.",
   },
+  termsNotAccepted: {
+    errorMessage: "You must accept the terms and conditions to sign up.",
+  },
   weakPassword: {
     errorMessage: "Password needs to have at least 6 characters, one number, one lowercase, and one uppercase letter.",
   },
