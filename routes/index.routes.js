@@ -35,39 +35,12 @@ router.get("/family/:id", isLoggedIn, (req, res, nest) => {
 // this is assuming HTML looks like the following:
 // <input type="file" name="family-member-photo">
 router.post("/create-family-member", uploader.single("family-member-photo"), (req, res, next) => {
-  const {
-    firstName,
-    lastName,
-    sex,
-    dateOfBirth,
-    placeOfBirth,
-    placeOfDeath,
-    lifeEvents,
-    relationship,
-    parent,
-    child,
-    sibling,
-  } = req.body;
   const imgName = req.file.originalname;
   const imgPath = req.file.path;
   const publicId = req.file.filename;
+  const family = req.session.currentUser.family;
 
-  User.create({
-    firstName,
-    lastName,
-    sex,
-    dateOfBirth,
-    placeOfBirth,
-    placeOfDeath,
-    lifeEvents,
-    relationship,
-    parent,
-    child,
-    sibling,
-    imgName,
-    imgPath,
-    publicId,
-  })
+  User.create({ ...req.body, imgName, imgPath, publicId, family })
     .then((user) => res.redirect("/overview"))
     .catch((err) => next(err));
 });

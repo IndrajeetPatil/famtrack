@@ -52,6 +52,10 @@ const familyMemberSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "FamilyMember",
   },
+  family: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Family",
+  },
 });
 
 const FamilyMember = mongoose.model("FamilyMember", familyMemberSchema);
