@@ -11,8 +11,8 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "movie-uploads",
-    allowed_formats: "jpg, png",
+    folder: "family-photos",
+    allowed_formats: "jpg, jpeg, png",
   },
 });
 

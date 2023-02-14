@@ -26,6 +26,9 @@ const familyMemberSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  imgName: String,
+  imgPath: String,
+  publicId: String,
   lifeEvents: [
     {
       type: mongoose.Schema.Types.ObjectId,
