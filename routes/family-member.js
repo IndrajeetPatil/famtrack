@@ -39,7 +39,6 @@ router.post(
         placeOfBirth,
         dateOfDeath,
         placeOfDeath,
-        relationship,
         parent,
         sibling,
         child, 
