@@ -1,9 +1,11 @@
 <html lang="en">
 
   <head>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
     <title>{{appTitle}}</title>
 
     {{! Bootstrap }}
@@ -16,13 +18,17 @@
 
     {{!-- Font --}}
     <link href="https://fonts.cdnfonts.com/css/inter" rel="stylesheet">
+
   </head>
 
   <body>
+
+    {{! Navbar }}
     <div class="container-fluid p-0 vh-100 d-flex flex-column">
       <nav class="d-flex navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">FamTrack</a>
+
           <button
             class="navbar-toggler"
             type="button"
@@ -34,14 +40,18 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
+
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
               </li>
+
               <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
               </li>
+
               <li class="nav-item dropdown">
                 <a
                   class="nav-link dropdown-toggle"
@@ -59,17 +69,22 @@
                   <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
               </li>
+
               <li class="nav-item">
                 <a class="nav-link disabled">Disabled</a>
               </li>
+
             </ul>
           </div>
         </div>
       </nav>
+
       <main class="d-flex flex-grow-1">
         {{{body}}}
       </main>
+
     </div>
+
     <script src="/js/script.js"></script>
 
     {{! Bootstrap }}
@@ -78,6 +93,7 @@
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>
+
   </body>
 
 </html>
