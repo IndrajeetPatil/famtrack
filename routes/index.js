@@ -26,7 +26,6 @@ router.get("/family/create", isLoggedIn, (req, res, next) => {
   User.findById(userId)
     .populate("family")
     .then((user) => {
-      console.log(user);
       if (user.family) {
         res.redirect(`/family/${user.family._id}`);
       } else {
