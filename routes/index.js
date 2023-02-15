@@ -11,13 +11,31 @@ const LifeEvent = require("../models/LifeEvent");
 const { uploader, cloudinary } = require("../config/cloudinary");
 
 /* GET home page */
-router.get("/", isLoggedOut, (req, res, next) => res.render("index"));
+router.get("/", isLoggedOut, (req, res) => res.render("index"));
 
-router.get("/start", isLoggedIn, (req, res, nest) => {
-  User.findById(req.session.currentUser._id)
+router.get("/start", isLoggedIn, (req, res, next) => {
+  const userId = req.session.currentUser._id;
+
+  User.findById(userId)
     .populate("family")
-    .then((user) => (user.family ? res.redirect(`/family/${user.family._id}`) : res.render("start")))
-    .catch((err) => console.log(err));
+    .then((user) => {
+      if (user.family) {
+        res.redirect(`/family/${user.family._id}`);
+      } else {
+        const { familyName } = req.session.currentUser.lastName;
+        Family.create({ familyName })
+          .then((family) => User.findByIdAndUpdate(userId, { family: family._id }).catch((err) => next(err)))
+          .then((user) => FamilyMember.create({ ...user }).catch((err) => next(err)))
+          .then((member) =>
+            Family.findByIdAndUpdate(user.family._id, { $push: { familyMembers: member._id } }).catch((err) =>
+              next(err)
+            )
+          )
+          .then((member) => res.redirect(`/family/${user.family._id}`))
+          .catch((err) => next(err));
+      }
+    })
+    .catch((err) => next(err));
 });
 
 // this is assuming HTML looks like the following:
