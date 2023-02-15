@@ -1,0 +1,4 @@
+
+# ignore files containing handlebar partials, because they are not yet supported by prettier
+# https://github.com/prettier/prettier/issues/11834
+views/family/details.hbs
