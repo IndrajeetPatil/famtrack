@@ -8,6 +8,9 @@ const app = express();
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
 
+// Sets the partials directory for handlebars
+hbs.registerPartials(__dirname + "/views/partials");
+
 // Configure session
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
