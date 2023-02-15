@@ -12,7 +12,7 @@ const familyMemberSchema = new mongoose.Schema({
   sex: {
     type: String,
     required: false,
-    enum: ["Male", "Female", "Other"],
+    enum: ["Male", "Female", "Non-binary"],
   },
   dateOfBirth: {
     type: Date,
@@ -20,6 +20,10 @@ const familyMemberSchema = new mongoose.Schema({
   },
   placeOfBirth: {
     type: String,
+    required: false,
+  },
+  dateOfDeath: {
+    type: Date,
     required: false,
   },
   placeOfDeath: {
@@ -37,7 +41,7 @@ const familyMemberSchema = new mongoose.Schema({
   ],
   relationship: {
     type: String,
-    required: true,
+    required: false,
     default: "Self",
     enum: ["Self", "Parent", "Sibling", "Child"],
   },
