@@ -12,23 +12,8 @@ router.get("/family/member/create", (req, res, next) =>
 
 router.post("/family/member/create", uploader.single("memberImg"), async (req, res, next) => {
     try {
-      let imgName = "";
-      let imgPath = "";
-      let publicId = "";
-  
-      const {
-        firstName,
-        lastName,
-        sex,
-        dateOfBirth,
-        placeOfBirth,
-        dateOfDeath,
-        placeOfDeath,
-        parent,
-        sibling,
-        child,
-      } = req.body;
-  
+        let { imgName = "", imgPath = "", publicId = "" } = {};
+      
       if (!req.file) {
         const response = await axios.get(`https://ui-avatars.com/api/?background=random&name=${firstName}+${lastName}&format=svg`);
         imgPath = response.config.url;
@@ -39,22 +24,12 @@ router.post("/family/member/create", uploader.single("memberImg"), async (req, r
       }
   
       const familyMember = await FamilyMember.create({
-        firstName,
-        lastName,
-        sex,
-        dateOfBirth,
-        placeOfBirth,
-        dateOfDeath,
-        placeOfDeath,
-        parent,
-        sibling,
-        child,
+        ...req.body,
         imgName,
         imgPath,
         publicId,
-      });
+      })
   
-      console.log(familyMember);
       res.redirect("/family/member/id");
     } catch (err) {
       console.log(err);
