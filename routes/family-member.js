@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { uploader, cloudinary } = require("../config/cloudinary");
+const isLoggedOut = require("../middleware/isLoggedOut");
+const axios = require("axios")
 
 const FamilyMember = require("../models/FamilyMember")
 
@@ -8,31 +10,14 @@ router.get("/family/member/create", (req, res, next) =>
   res.render("member/create")
 );
 
-router.post(
-  "/family/member/create",
-  uploader.single("image"),
-  (req, res, next) => {
-    console.log(req.file);
-
-    const {
-      firstName,
-      lastName,
-      sex,
-      dateOfBirth,
-      placeOfBirth,
-      dateOfDeath,
-      placeOfDeath,
-      parent,
-      sibling,
-      child,
-    } = req.body;
-
-    const imgName = req.file.originalname;
-    const imgPath = req.file.path;
-    const publicId = req.file.filename;
-
-    FamilyMember.create({       
-        firstname,
+router.post("/family/member/create", uploader.single("memberImg"), async (req, res, next) => {
+    try {
+      let imgName = "";
+      let imgPath = "";
+      let publicId = "";
+  
+      const {
+        firstName,
         lastName,
         sex,
         dateOfBirth,
@@ -41,19 +26,41 @@ router.post(
         placeOfDeath,
         parent,
         sibling,
-        child, 
-        imgName, 
-        imgPath, 
-        publicId })
-      .then((familyMember) => {
-        console.log(familyMember);
-        // TODO: Fix redirect here
-        res.redirect("/family/member/id");
-      })
-      .catch((err) => {
-        next(err);
+        child,
+      } = req.body;
+  
+      if (!req.file) {
+        const response = await axios.get(`https://ui-avatars.com/api/?background=random&name=${firstName}+${lastName}&format=svg`);
+        imgPath = response.config.url;
+      } else {
+        imgName = req.file.originalname;
+        imgPath = req.file.path;
+        publicId = req.file.filename;
+      }
+  
+      const familyMember = await FamilyMember.create({
+        firstName,
+        lastName,
+        sex,
+        dateOfBirth,
+        placeOfBirth,
+        dateOfDeath,
+        placeOfDeath,
+        parent,
+        sibling,
+        child,
+        imgName,
+        imgPath,
+        publicId,
       });
-  }
-);
+  
+      console.log(familyMember);
+      res.redirect("/family/member/id");
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  });
+  
 
 module.exports = router;
