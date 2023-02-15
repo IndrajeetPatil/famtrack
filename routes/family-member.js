@@ -37,7 +37,6 @@ router.post(
 
       res.redirect(`/family/member/${familyMember._id}`);
     } catch (err) {
-      console.log(err);
       next(err);
     }
   }
