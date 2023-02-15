@@ -31,7 +31,7 @@ router.get("/start", isLoggedIn, (req, res, next) => {
               next(err)
             )
           )
-          .then((member) => res.redirect(`/family/${user.family._id}`))
+          .then((member) => res.render("start"))
           .catch((err) => next(err));
       }
     })
