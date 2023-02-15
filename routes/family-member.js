@@ -15,14 +15,14 @@ router.post("/family/member/create", uploader.single("memberImg"), async (req, r
         let { imgName = "", imgPath = "", publicId = "" } = {};
       
       if (!req.file) {
-        const response = await axios.get(`https://ui-avatars.com/api/?background=random&name=${firstName}+${lastName}&format=svg`);
+        const response = await axios.get(`https://ui-avatars.com/api/?background=random&name=${req.body.firstName}+${req.body.lastName}&format=svg`);
         imgPath = response.config.url;
       } else {
         imgName = req.file.originalname;
         imgPath = req.file.path;
         publicId = req.file.filename;
       }
-  
+
       const familyMember = await FamilyMember.create({
         ...req.body,
         imgName,
@@ -30,7 +30,7 @@ router.post("/family/member/create", uploader.single("memberImg"), async (req, r
         publicId,
       })
   
-      res.redirect("/family/member/id");
+      res.redirect(`/family/member/${familyMember._id}`);
     } catch (err) {
       console.log(err);
       next(err);
