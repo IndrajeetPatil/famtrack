@@ -10,7 +10,7 @@ const User = require("../models/User");
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
-router.get("/family/member/", isLoggedOut, (req, res) => res.render("./member/details"));
+router.get("/family/member/", isLoggedOut, (req, res) => res.render("/member/details"));
 
 router.get("/family/member/:id", isLoggedIn, (req, res, next) => {
   User.findById(req.params.id)
@@ -40,7 +40,7 @@ router.get("/family/member/:id/delete", isLoggedIn, (req, res, next) => {
   User.findByIdAndDelete(req.params.id)
     .then((member) => {
       if (member.imgPath) cloudinary.uploader.destroy(member.publicId);
-      res.redirect("/overview");
+      res.redirect("/family/details");
     })
     .catch((err) => next(err));
 });
