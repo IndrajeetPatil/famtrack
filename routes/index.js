@@ -26,20 +26,14 @@ router.get("/family/create", isLoggedIn, (req, res, next) => {
   User.findById(userId)
     .populate("family")
     .then((user) => {
-      if (user.family) {
-        res.redirect(`/family/${user.family._id}`);
-      } else {
-        Family.create({ familyName: user.lastName })
-          .then((family) => User.findByIdAndUpdate(userId, { family: family._id }).catch((err) => next(err)))
-          .then((user) => FamilyMember.create({ ...user }).catch((err) => next(err)))
-          .then((member) =>
-            Family.findByIdAndUpdate(user.family._id, { $push: { familyMembers: member._id } }).catch((err) =>
-              next(err)
-            )
-          )
-          .then((member) => res.render("start"))
-          .catch((err) => next(err));
-      }
+      Family.create({ familyName: user.lastName })
+        .then((family) => User.findByIdAndUpdate(userId, { family: family._id }).catch((err) => next(err)))
+        .then((user) => FamilyMember.create({ ...user }).catch((err) => next(err)))
+        .then((member) =>
+          Family.findByIdAndUpdate(user.family._id, { $push: { familyMembers: member._id } }).catch((err) => next(err))
+        )
+        .then((member) => res.render("start"))
+        .catch((err) => next(err));
     })
     .catch((err) => next(err));
 });

@@ -20,7 +20,7 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 router.get("/", isLoggedOut, (req, res) => res.render("index"));
 
 // POST /auth/signup
-router.post("/auth/signup", isLoggedOut, (req, res) => {
+router.post("/auth/signup", isLoggedOut, (req, res, next) => {
   const { firstName, lastName, username, email, password } = req.body;
 
   // Check that username, email, and password are provided
