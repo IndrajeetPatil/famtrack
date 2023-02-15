@@ -24,9 +24,9 @@ router.post("/family/create", isLoggedIn, (req, res, next) => {
         User.findByIdAndUpdate(userId, { family: family._id }, { new: true }).then((user) => {
           FamilyMember.create({ firstName: user.firstName, lastName: user.lastName, family: user.family }).then(
             (member) => {
-              Family.findByIdAndUpdate(user.family._id, { $push: { familyMembers: member._id } }).then(() =>
-                res.render("family/details")
-              );
+              Family.findByIdAndUpdate(user.family._id, { $push: { familyMembers: member._id } }).then(() => {
+                res.render("family/details");
+              });
             }
           );
         });
