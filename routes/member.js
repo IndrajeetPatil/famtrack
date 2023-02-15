@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-// TODO: Remove models which are not needed
-const Family = require("../models/Family");
-const User = require("../models/User");
-const FamilyMember = require("../models/FamilyMember");
-const LifeEvent = require("../models/LifeEvent");
-
 const { uploader, cloudinary } = require("../config/cloudinary");
+
+// Require needed models in order to use the database functions
+const User = require("../models/User");
+
+// Require needed middleware to control access to specific routes
+const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 /* GET home page */
