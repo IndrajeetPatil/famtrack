@@ -20,8 +20,8 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 router.get("/", isLoggedOut, (req, res) => res.render("index"));
 
 // POST /auth/signup
-router.post("/auth/signup", isLoggedOut, (req, res) => {
-  const { username, email, password } = req.body;
+router.post("/auth/signup", isLoggedOut, (req, res, next) => {
+  const { firstName, lastName, username, email, password } = req.body;
 
   // Check that username, email, and password are provided
   // Although these fields are required in the HTML form, we still need to check here
@@ -50,7 +50,7 @@ router.post("/auth/signup", isLoggedOut, (req, res) => {
   bcrypt
     .genSalt(saltRounds)
     .then((salt) => bcrypt.hash(password, salt))
-    .then((hashedPassword) => User.create({ username, email, password: hashedPassword }))
+    .then((hashedPassword) => User.create({ firstName, lastName, username, email, password: hashedPassword }))
     .then((user) => {
       req.session.currentUser = user.toObject();
       delete req.session.currentUser.password;
