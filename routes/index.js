@@ -3,6 +3,7 @@ const router = express.Router();
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
+// TODO: Remove models which are not needed
 const Family = require("../models/Family");
 const User = require("../models/User");
 const FamilyMember = require("../models/FamilyMember");
@@ -11,13 +12,13 @@ const LifeEvent = require("../models/LifeEvent");
 const { uploader, cloudinary } = require("../config/cloudinary");
 
 /* GET home page */
-router.get("/", isLoggedOut, (req, res, next) => res.render("index"));
+router.get("/", isLoggedOut, (req, res) => res.render("index"));
 
-router.get("/start", isLoggedIn, (req, res, nest) => {
+router.get("/start", isLoggedIn, (req, res, next) => {
   User.findById(req.session.currentUser._id)
     .populate("family")
     .then((user) => (user.family ? res.redirect(`/family/${user.family._id}`) : res.render("start")))
-    .catch((err) => console.log(err));
+    .catch((err) => next(err));
 });
 
 // this is assuming HTML looks like the following:

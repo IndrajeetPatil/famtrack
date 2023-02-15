@@ -36,7 +36,7 @@ app.use("/", authRoutes);
 const familyRoutes = require("./routes/family.js");
 app.use("/", familyRoutes);
 
-const familyMemberRoutes = require("./routes/family-member.js");
+const familyMemberRoutes = require("./routes/member.js");
 app.use("/", familyMemberRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
