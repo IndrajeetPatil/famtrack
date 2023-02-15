@@ -8,7 +8,7 @@ const FamilyMember = require("../models/FamilyMember");
 
 router.get("/family/member/create", (req, res) => res.render("member/create"));
 
-router.post("/family/member/create", uploader.single("member-image"), async (req, res, next) => {
+router.post("/family/member/create", uploader.single("memberImage"), async (req, res, next) => {
   try {
     let { imgName = "", imgPath = "", publicId = "" } = {};
 
