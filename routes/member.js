@@ -38,13 +38,10 @@ router.post("/family/member/:id/edit", uploader.single("family-member-photo"), (
 
 router.get("/family/member/:id/delete", isLoggedIn, (req, res, next) => {
   User.findByIdAndDelete(req.params.id)
-    .then((user) => res.redirect("/overview"))
-    .catch((err) => next(err));
-});
-
-router.post("/family/member/:id/delete", (req, res, next) => {
-  User.findByIdAndDelete(req.params.id)
-    .then((user) => res.redirect("/overview"))
+    .then((member) => {
+      if (member.imgPath) cloudinary.uploader.destroy(member.publicId);
+      res.redirect("/overview");
+    })
     .catch((err) => next(err));
 });
 
