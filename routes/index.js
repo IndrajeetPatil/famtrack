@@ -5,7 +5,7 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 
 const Family = require("../models/Family");
 const User = require("../models/User");
-const FamilyMember = require("../models/FamilyMember");
+const Member = require("../models/Member");
 const LifeEvent = require("../models/LifeEvent");
 
 const { uploader, cloudinary } = require("../config/cloudinary");
@@ -21,8 +21,8 @@ router.get("/start", isLoggedIn, (req, res, nest) => {
 });
 
 // this is assuming HTML looks like the following:
-// <input type="file" name="family-member-photo">
-router.post("/create-family-member", uploader.single("family-member-photo"), (req, res, next) => {
+// <input type="file" name="member-photo">
+router.post("/create-member", uploader.single("member-photo"), (req, res, next) => {
   const imgName = req.file.originalname;
   const imgPath = req.file.path;
   const publicId = req.file.filename;

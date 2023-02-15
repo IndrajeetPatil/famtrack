@@ -4,7 +4,7 @@ const { uploader, cloudinary } = require("../config/cloudinary");
 const isLoggedOut = require("../middleware/isLoggedOut");
 const axios = require("axios");
 
-const FamilyMember = require("../models/FamilyMember");
+const Member = require("../models/Member");
 
 router.get("/family/member/create", (req, res) => res.render("member/create"));
 
@@ -23,9 +23,9 @@ router.post("/family/member/create", uploader.single("memberImage"), async (req,
       publicId = req.file.filename;
     }
 
-    const familyMember = await FamilyMember.create({ ...req.body, imgName, imgPath, publicId });
+    const member = await Member.create({ ...req.body, imgName, imgPath, publicId });
 
-    res.redirect(`/family/member/${familyMember._id}`);
+    res.redirect(`/family/member/${member._id}`);
   } catch (err) {
     next(err);
   }

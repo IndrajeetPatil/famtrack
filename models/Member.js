@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const familyMemberSchema = new mongoose.Schema({
+const memberSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
@@ -46,15 +46,15 @@ const familyMemberSchema = new mongoose.Schema({
   },
   parent: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "FamilyMember",
+    ref: "Member",
   },
   sibling: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "FamilyMember",
+    ref: "Member",
   },
   child: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "FamilyMember",
+    ref: "Member",
   },
   family: {
     type: mongoose.Schema.Types.ObjectId,
@@ -62,6 +62,6 @@ const familyMemberSchema = new mongoose.Schema({
   },
 });
 
-const FamilyMember = mongoose.model("FamilyMember", familyMemberSchema);
+const Member = mongoose.model("Member", memberSchema);
 
-module.exports = FamilyMember;
+module.exports = Member;

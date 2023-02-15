@@ -5,10 +5,10 @@ const familySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  familyMembers: [
+  members: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "FamilyMember",
+      ref: "Member",
     },
   ],
 });
