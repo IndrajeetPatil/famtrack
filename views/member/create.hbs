@@ -1,183 +1,182 @@
-<body>
-  <div class="container-fluid d-flex flex-column">
-    <div class="row row-cols-1 row-cols-md-2 d-flex align-items-center flex-grow-1">
+<div class="container-fluid d-flex flex-column">
+  <div class="row mt-5">
+    <div class="col"></div>
+    <div class="col-4 d-flex justify-content-center align-items-center">
+      <div class="container-fluid m-4">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="h2 fs-3 fw-bold">Add Family Member</h2>
+            <form class="mb-0" action="/family/member/create" method="POST" enctype="multipart/form-data">
+              <h4 class="h4 fs-6">Add Details About the New Family Member</h4>
 
-      <div class="col d-flex justify-content-center align-items-center">
-        <div class="container-fluid m-4">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="h2 fs-3 fw-bold">Add Family Member</h2>
-              <form class="mb-0" action="/family/member/create" method="POST" enctype="multipart/form-data">
-                <h4 class="h4 fs-6">Add Details About the New Family Member</h4>
-
-                {{! First name / Last name }}
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="text"
-                        name="firstName"
-                        class="form-control"
-                        id="firstName"
-                        placeholder="First name"
-                        required
-                      />
-                      <label for="firstName">First name</label>
-                    </div>
+              {{! First name / Last name }}
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      name="firstName"
+                      class="form-control"
+                      id="firstName"
+                      placeholder="First name"
+                      required
+                    />
+                    <label for="firstName">First name</label>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="text"
-                        name="lastName"
-                        class="form-control"
-                        id="lastName"
-                        placeholder="Last Name"
-                        required
-                      />
-                      <label for="lastName">Last name</label>
-                    </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      name="lastName"
+                      class="form-control"
+                      id="lastName"
+                      placeholder="Last Name"
+                      required
+                    />
+                    <label for="lastName">Last name</label>
                   </div>
                 </div>
+              </div>
 
-                {{! Sex }}
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <select class="form-select mb-3" id="sex" name="sex">
-                        <option selected>Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Non-binary">Non-binary</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                {{! Dates and locations (birth/death) }}
-                {{! TODO: Should link to mapbox for places  }}
-                <h4 class="h4 fs-6 md-3">Add Information about Birth Day and Place</h4>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="dateOfBirth"
-                        name="dateOfBirth"
-                        placeholder="mm/dd/yyyy"
-                        min="0000-00-00"
-                        max="3000-12-12"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="placeOfBirth"
-                        name="placeOfBirth"
-                        placeholder="Birth Place"
-                        required
-                      />
-                      <label for="placeOfBirth">Birth Place</label>
-                    </div>
-                  </div>
-                </div>
-
-                <h4 class="h4 fs-6 md-3">If relevant add information about date of death and location
-                </h4>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="dateOfDeath"
-                        name="dateOfDeath"
-                        placeholder="mm/dd/yyyy"
-                        min="0000-00-00"
-                        max="3000-12-12"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="placeOfDeath"
-                        placeholder="placeofDeath"
-                        name="placeOfDeath"
-                      />
-                      <label for="placeOfDeath">Place of Death</label>
-                    </div>
-                  </div>
-                </div>
-
-                {{! Images }}
-                <div class="row">
-                  <div class="col">
-                    <label class="form-label mb-3" for="memberImg">Upload Image</label>
-                    <input type="file" class="form-control" id="memberImg" name="memberImg" />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col">
-                    <h4 class="h4 fs-6 md-3">If already added, select parents:
-                    </h4>
-                    <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="parent">
-                      {{#if familyMember}}
-                        {{#each familyMember}}
-                          <option value="{{_id}}">{{firstName}} {{lastName}}</option>
-                        {{/each}}
-                      {{/if}}
+              {{! Sex }}
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <select class="form-select mb-3" id="sex" name="sex">
+                      <option selected>Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Non-binary">Non-binary</option>
                     </select>
                   </div>
                 </div>
-                                <div class="row">
-                  <div class="col">
-                    <h4 class="h4 fs-6 md-3">If already added, select siblings:
-                    </h4>
-                    <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="sibling">
-                      {{#if familyMember}}
-                        {{#each familyMember}}
-                          <option value="{{_id}}">{{firstName}} {{lastName}}</option>
-                        {{/each}}
-                      {{/if}}
-                    </select>
-                  </div>
-                </div>
-      
-                                <div class="row">
-                  <div class="col">
-                    <h4 class="h4 fs-6 md-3">If already added, select children:
-                    </h4>
-                    <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="child">
-                      {{#if familyMember}}
-                        {{#each familyMember}}
-                          <option value="{{_id}}">{{firstName}} {{lastName}}</option>
-                        {{/each}}
-                      {{/if}}
-                    </select>
-                  </div>
-                </div>
-                <button type="submit" class="btn btn-primary md-2">Submit</button>
+              </div>
 
-              </form>
-            </div>
+              {{! Dates and locations (birth/death) }}
+              {{! TODO: Should link to mapbox for places  }}
+              <h4 class="h4 fs-6 md-3">Add Information about Birth Day and Place</h4>
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dateOfBirth"
+                      name="dateOfBirth"
+                      placeholder="mm/dd/yyyy"
+                      min="0000-00-00"
+                      max="3000-12-12"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="placeOfBirth"
+                      name="placeOfBirth"
+                      placeholder="Birth Place"
+                      required
+                    />
+                    <label for="placeOfBirth">Birth Place</label>
+                  </div>
+                </div>
+              </div>
+
+              <h4 class="h4 fs-6 md-3">If relevant add information about date of death and location
+              </h4>
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dateOfDeath"
+                      name="dateOfDeath"
+                      placeholder="mm/dd/yyyy"
+                      min="0000-00-00"
+                      max="3000-12-12"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="placeOfDeath"
+                      placeholder="placeofDeath"
+                      name="placeOfDeath"
+                    />
+                    <label for="placeOfDeath">Place of Death</label>
+                  </div>
+                </div>
+              </div>
+
+              {{! Images }}
+              <div class="row">
+                <div class="col">
+                  <label class="form-label mb-3" for="memberImg">Upload Image</label>
+                  <input type="file" class="form-control" id="memberImg" name="memberImg" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h4 class="h4 fs-6 md-3">If already added, select parents:
+                  </h4>
+                  <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="parent">
+                    {{#if familyMember}}
+                      {{#each familyMember}}
+                        <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                      {{/each}}
+                    {{/if}}
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <h4 class="h4 fs-6 md-3">If already added, select siblings:
+                  </h4>
+                  <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="sibling">
+                    {{#if familyMember}}
+                      {{#each familyMember}}
+                        <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                      {{/each}}
+                    {{/if}}
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <h4 class="h4 fs-6 md-3">If already added, select children:
+                  </h4>
+                  <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="child">
+                    {{#if familyMember}}
+                      {{#each familyMember}}
+                        <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                      {{/each}}
+                    {{/if}}
+                  </select>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary md-2">Submit</button>
+
+            </form>
           </div>
         </div>
       </div>
     </div>
+    <div class="col"></div>
   </div>
-</body>
+</div>
