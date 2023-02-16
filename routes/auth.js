@@ -21,13 +21,29 @@ router.get("/", isLoggedOut, (req, res) => res.render("index"));
 
 // POST /auth/signup
 router.post("/auth/signup", isLoggedOut, (req, res, next) => {
-  const { firstName, lastName, username, email, password } = req.body;
+  const { firstName, lastName, username, email, password, birthDay, birthMonth, birthYear } = req.body;
 
   // Check that username, email, and password are provided
   // Although these fields are required in the HTML form, we still need to check here
   // in case the user manipulates the HTML and removes the required attribute
   if (username === "" || email === "" || password === "") {
     return signalBadInput(res, "index", errors.mandatorySignupFieldsMissing);
+  }
+
+  // Validate birthdate is within ranges
+  if (birthDay <= 0 || birthDay > 31) {
+    return signalBadInput(res, "index", errors.invalidBirthdate);
+  } else if (birthMonth <= 0 || birthMonth > 12) {
+    return signalBadInput(res, "index", errors.mandatorySignupFieldsMissing);
+  }
+
+  // Create birthdate from birthDay, birthMonth and birthYear
+  const dateOfBirth = new Date(parseInt(birthYear), parseInt(birthMonth), parseInt(birthDay));
+
+  // Validate birthdate is not in the future
+  const today = new Date();
+  if (today - dateOfBirth < 0) {
+    return signalBadInput(res, "index", errors.birthdateLiesAhead);
   }
 
   // Validate user has agreed to terms and conditions
@@ -50,7 +66,7 @@ router.post("/auth/signup", isLoggedOut, (req, res, next) => {
   bcrypt
     .genSalt(saltRounds)
     .then((salt) => bcrypt.hash(password, salt))
-    .then((hashedPassword) => User.create({ firstName, lastName, username, email, password: hashedPassword }))
+    .then((hashedPassword) => User.create({ firstName, lastName, dateOfBirth, username, email, password: hashedPassword }))
     .then((user) => {
       req.session.currentUser = user.toObject();
       delete req.session.currentUser.password;

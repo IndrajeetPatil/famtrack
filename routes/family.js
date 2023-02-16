@@ -25,10 +25,10 @@ router.post("/family/create", isLoggedIn, (req, res, next) => {
     .then((user) => {
       Family.create({ familyName: req.body.familyName }).then((family) => {
         User.findByIdAndUpdate(userId, { family: family._id }, { new: true }).then((user) => {
-          FamilyMember.create({ firstName: user.firstName, lastName: user.lastName, family: user.family }).then(
+          FamilyMember.create({ firstName: user.firstName, lastName: user.lastName, dateOfBirth: user.dateOfBirth, family: user.family }).then(
             (member) => {
               Family.findByIdAndUpdate(user.family._id, { $push: { familyMembers: member._id } }).then(() => {
-                res.render("family/details");
+                res.redirect(`/family/${user.family._id}`);
               });
             }
           );
