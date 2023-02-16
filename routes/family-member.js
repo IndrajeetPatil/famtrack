@@ -45,7 +45,8 @@ router.post("/family/member/create", uploader.single("memberImg"), async (req, r
   User.findById(userId)
     .populate("family")
     .then((user) => {
-      FamilyMember.create({ ...req.body, imgName, imgPath, publicId, user }).then((familyMember) => {
+      const family = user.family;
+      FamilyMember.create({ ...req.body, imgName, imgPath, publicId, family }).then((familyMember) => {
         const family = user.family._id;
         Family.findByIdAndUpdate(family, { $push: { familyMembers: familyMember._id } }).then(() =>
           res.redirect(`/family/member/${familyMember._id}`),
