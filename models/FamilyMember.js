@@ -26,6 +26,10 @@ const familyMemberSchema = new mongoose.Schema({
     type: Date,
     required: false,
   },
+  dateOfDeath: {
+    type: Date,
+    required: false,
+  },
   placeOfDeath: {
     type: String,
     required: false,
@@ -42,7 +46,8 @@ const familyMemberSchema = new mongoose.Schema({
   relationship: {
     type: String,
     required: false,
-    enum: ["Parent", "Sibling", "Child"],
+    default: "Self",
+    enum: ["Self", "Parent", "Sibling", "Child"],
   },
   parent: {
     type: mongoose.Schema.Types.ObjectId,

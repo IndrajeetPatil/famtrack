@@ -28,6 +28,12 @@
               <button class="btn btn-primary py-3 mb-3" type="submit">Log in</button>
             </div>
 
+            {{#if errorMessage}}
+              <div class="alert alert-danger" role="alert">
+                {{errorMessage}}
+              </div>
+            {{/if}}
+
             <p class="mb-0"><small>Don't have an account yet? <a href="/">Sign up here.</a></small></p>
 
           </form>

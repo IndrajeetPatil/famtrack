@@ -1,0 +1,82 @@
+{{!-- Header --}}
+<div class="container-fluid bg-light">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-10">
+      <div class="container p-5">
+
+        <div class="row">
+
+          <div class="container rounded-3 p-3 bg-white shadow-sm">
+
+            <div class="row row-cols-auto mb-3">
+
+              <div class="col">
+                <h3 class="h3 mb-0">Test Family</h3>
+              </div>
+
+              <div class="col">
+                <a class="btn btn-outline-secondary btn-sm" href="/family/:id/edit"><i
+                    class="bi bi-pencil-square me-2"></i>Edit</a>
+              </div>
+
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-auto">
+
+              <div class="col">
+                <i class="bi bi-people me-2"></i><span>34 members</span>
+              </div>
+
+              <div class="col">
+                <i class="bi bi-asterisk me-2"></i><span>4 generations</span>
+              </div>
+
+              <div class="col">
+                <i class="bi bi-clock-history me-2"></i><span>traced back to 1875</span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="row row-cols-1 row-cols-lg-2 mt-4">
+          <div class="col col-lg-8 order-2 order-lg-1 px-0 pe-lg-2 mt-2 mt-lg-0">
+
+            <div class="container rounded-3 p-3 bg-white shadow-sm">
+
+              <div class="row">
+                <div class="col">
+                  <h4 class="h5 m-0">Family members<a href="/family/member/create"><i
+                        class="bi bi-plus-circle ms-2"></i></a></h4>
+                </div>
+              </div>
+
+              <div class="container p-0">
+                <div class="row row-cols-1 row-cols-md-3 mt-4 g-3">
+
+                  {{#each member}}
+                    {{> memberCard this}}
+                  {{/each}}
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="col col-lg-4 order-1 order-lg-2 px-0 ps-lg-2">
+            <div class="container border rounded-3 p-3 bg-success">
+              <p class="text-light">Map</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>
