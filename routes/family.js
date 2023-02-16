@@ -10,7 +10,10 @@ const LifeEvent = require("../models/LifeEvent");
 
 const { uploader, cloudinary } = require("../config/cloudinary");
 
-router.get("/family/details", isLoggedIn, (req, res) => res.render("family/details"));
+router.get("/family/details", isLoggedIn, (req, res) => {
+  const user = req.session.currentUser;
+  res.render(`family/${user.family._id}/details`);
+});
 
 router.get("/family/create", isLoggedIn, (req, res) => res.render("family/create"));
 
