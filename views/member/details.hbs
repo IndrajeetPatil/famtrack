@@ -2,9 +2,7 @@
 
   <div class="container">
 
-    <a href="/family/member" class="btn btn-light mb-3"><i class="fas fa-chevron-left"></i> Back To Family Members</a>
-
-    <h1 class="text-center my-4">Family Member Profile</h1>
+    <a href="/family/details" class="btn btn-light mb-3"><i class="fas fa-chevron-left"></i> Back To Family Members</a>
 
     <div class="row">
 
@@ -18,8 +16,9 @@
 
       <div class="col-md-8">
 
-        <h2>{{firstName}} {{lastName}}</h2>
-        <h3><strong>Relationship:</strong> {{relationship}}</h3>
+        <h1>{{firstName}} {{lastName}}</h1>
+
+        <h4><strong>Your relationship:</strong> {{relationship}}</h4>
 
         {{!-- more general solution, but not needed for nows
         {{#each this}}
@@ -30,10 +29,10 @@
         {{! TODO: including only a few properties for now, but we can include all later }}
 
         <p><strong>Sex:</strong> {{sex}}</p>
-        <p><strong>Birth Date:</strong> {{dateOfBirth}}</p>
-        <p><strong>Birth Place:</strong> {{placeOfBirth}}</p>
-        <p><strong>Death Date:</strong> {{dateOfDeath}}</p>
-        <p><strong>Death Place:</strong> {{placeOfDeath}}</p>
+        <p><strong>Date of Birth:</strong> {{dateOfBirth}}</p>
+        <p><strong>Place of Birth:</strong> {{placeOfBirth}}</p>
+        <p><strong>Date of Death:</strong> {{dateOfDeath}}</p>
+        <p><strong>Place of Death:</strong> {{placeOfDeath}}</p>
 
       </div>
 

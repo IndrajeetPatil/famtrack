@@ -10,9 +10,9 @@ const LifeEvent = require("../models/LifeEvent");
 
 const { uploader, cloudinary } = require("../config/cloudinary");
 
-router.get("/family/create", isLoggedIn, (req, res, next) => {
-  res.render("family/create");
-});
+router.get("/family/details", isLoggedIn, (req, res) => res.render("family/details"));
+
+router.get("/family/create", isLoggedIn, (req, res) => res.render("family/create"));
 
 router.post("/family/create", isLoggedIn, (req, res, next) => {
   const userId = req.session.currentUser._id;
@@ -27,7 +27,7 @@ router.post("/family/create", isLoggedIn, (req, res, next) => {
               Family.findByIdAndUpdate(user.family._id, { $push: { familyMembers: member._id } }).then(() => {
                 res.render("family/details");
               });
-            }
+            },
           );
         });
       });
