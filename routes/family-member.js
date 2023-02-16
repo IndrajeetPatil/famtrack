@@ -15,7 +15,7 @@ router.post("/family/member/create", uploader.single("memberImage"), async (req,
 
     if (!req.file) {
       const response = await axios.get(
-        `https://ui-avatars.com/api/?background=random&name=${req.body.firstName}+${req.body.lastName}&format=svg`
+        `https://ui-avatars.com/api/?background=random&name=${req.body.firstName}+${req.body.lastName}&format=svg`,
       );
       imgPath = response.config.url;
     } else {
@@ -32,30 +32,30 @@ router.post("/family/member/create", uploader.single("memberImage"), async (req,
   }
 });
 
-router.get("/family/member/:id", isLoggedIn, (req, res, next) => {
-  FamilyMember.findById(req.params.id)
+router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
+  FamilyMember.findById(req.params.memberId)
     .then((member) => res.render("member/details", { member }))
     .catch((err) => next(err));
 });
 
-router.get("/family/member/:id/edit", isLoggedIn, (req, res, next) => {
-  FamilyMember.findById(req.params.id)
+router.get("/family/member/:memberId/edit", isLoggedIn, (req, res, next) => {
+  FamilyMember.findById(req.params.memberId)
     .then((member) => res.render("member/edit", { member }))
     .catch((err) => next(err));
 });
 
-router.post("/family/member/:id/edit", uploader.single("family-member-photo"), (req, res, next) => {
+router.post("/family/member/:memberId/edit", uploader.single("family-member-photo"), (req, res, next) => {
   const imgName = req.file.originalname;
   const imgPath = req.file.path;
   const publicId = req.file.filename;
 
   FamilyMember.findByIdAndUpdate(req.params.id, { ...req.body, imgName, imgPath, publicId })
-    .then((member) => res.redirect(`/family/member/${req.params.id}`))
+    .then((member) => res.redirect(`/family/member/${req.params.memberId}`))
     .catch((err) => next(err));
 });
 
-router.get("/family/member/:id/delete", isLoggedIn, (req, res, next) => {
-  FamilyMember.findByIdAndDelete(req.params.id)
+router.get("/family/member/:memberId/delete", isLoggedIn, (req, res, next) => {
+  FamilyMember.findByIdAndDelete(req.params.memberId)
     .then((member) => {
       if (member.imgPath) cloudinary.uploader.destroy(member.publicId);
       res.redirect("/family/details");
