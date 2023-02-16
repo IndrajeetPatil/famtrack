@@ -7,7 +7,7 @@ const axios = require("axios");
 
 const User = require("../models/User");
 const FamilyMember = require("../models/FamilyMember");
-const isLoggedIn = require("../middleware/isLoggedIn");
+const Family = require("../models/Family")
 
 
 router.get("/family/member/create", isLoggedIn,(req, res, next) =>{
@@ -55,6 +55,9 @@ router.post(
         publicId,
         family
       });
+
+      // Add the member to current users family
+      const addMemberToFamily = await Family.findByIdAndUpdate(family , { $push: { familyMembers: familyMember._id } })
 
       res.redirect(`/family/member/${familyMember._id}`);
     } catch (err) {
