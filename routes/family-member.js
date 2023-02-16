@@ -8,7 +8,7 @@ const FamilyMember = require("../models/FamilyMember");
 const Family = require("../models/Family");
 
 const { errors, signalBadInput } = require("../utils/errors");
-const { convertToReadableDate } = require("../utils/calculations");
+const { convertToReadableDate, calculateAgeFromBirthdate } = require("../utils/calculations");
 const { uploader, cloudinary } = require("../config/cloudinary");
 
 
@@ -70,6 +70,11 @@ router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
       if (member.dateOfDeath) {
         readableDateOfDeath = convertToReadableDate(member.dateOfDeath);
       }
+
+      // Calculates age and adds it to the member object as "age" property
+      member.parent.forEach((parent) => parent.age = calculateAgeFromBirthdate(parent.dateOfBirth));
+      member.sibling.forEach((sibling) => sibling.age = calculateAgeFromBirthdate(sibling.dateOfBirth));
+      member.child.forEach((child) => child.age = calculateAgeFromBirthdate(child.dateOfBirth));
 
       res.render("member/details", { member, readableDateOfBirth, readableDateOfDeath });
     })
