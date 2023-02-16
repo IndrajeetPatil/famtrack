@@ -1,21 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const { uploader, cloudinary } = require("../config/cloudinary");
-const isLoggedOut = require("../middleware/isLoggedOut");
+
 const isLoggedIn = require("../middleware/isLoggedIn");
-const axios = require("axios");
 
 const User = require("../models/User");
 const FamilyMember = require("../models/FamilyMember");
 const Family = require("../models/Family");
 
-const { convertToReadableDate } = require('../utils/calculations');
+const { errors, signalBadInput } = require("../utils/errors");
+const { convertToReadableDate } = require("../utils/calculations");
+const { uploader, cloudinary } = require("../config/cloudinary");
 
 
 router.get("/family/member/create", isLoggedIn, (req, res, next) => {
-  // Get userId from session => find family member Ids from user => create array of family member objects
   const userId = req.session.currentUser._id;
   let userFamilyMembers = [];
+
   User.findById(userId)
     .populate("family")
     .then((user) => {
@@ -25,43 +25,36 @@ router.get("/family/member/create", isLoggedIn, (req, res, next) => {
           .then(() => res.render("member/create", { familyMember: userFamilyMembers }));
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => next(err));
 });
 
 router.post("/family/member/create", uploader.single("memberImg"), async (req, res, next) => {
-  try {
-    let { imgName = "", imgPath = "", publicId = "" } = {};
-
-    if (!req.file) {
-      const response = await axios.get(
-        `https://ui-avatars.com/api/?background=random&name=${req.body.firstName}+${req.body.lastName}&format=svg`,
-      );
-      imgPath = response.config.url;
-    } else {
-      imgName = req.file.originalname;
-      imgPath = req.file.path;
-      publicId = req.file.filename;
-    }
-
-    const userId = req.session.currentUser._id;
-    const { family } = await User.findById(userId);
-
-    const familyMember = await FamilyMember.create({
-      ...req.body,
-      imgName,
-      imgPath,
-      publicId,
-      family,
-    });
-
-    // Add the member to current users family
-    const addMemberToFamily = await Family.findByIdAndUpdate(family, { $push: { familyMembers: familyMember._id } });
-
-    res.redirect(`/family/member/${familyMember._id}`);
-  } catch (err) {
-    console.log(err);
-    next(err);
+  // input validation
+  if (req.body.dateOfDeath && req.body.dateOfBirth > req.body.dateOfDeath) {
+    return res.status(400).render("member/create", errors.deathBeforeBirth);
   }
+
+  if (req.body.dateOfBirth > new Date()) {
+    return res.status(400).render("member/create", errors.birthInFuture);
+  }
+
+  const userId = req.session.currentUser._id;
+  const imgName = req.file?.originalname;
+  const imgPath = req.file?.path;
+  const publicId = req.file?.filename;
+
+  User.findById(userId)
+    .populate("family")
+    .then((user) => {
+      const family = user.family;
+      FamilyMember.create({ ...req.body, imgName, imgPath, publicId, family }).then((familyMember) => {
+        const family = user.family._id;
+        Family.findByIdAndUpdate(family, { $push: { familyMembers: familyMember._id } }).then(() =>
+          res.redirect(`/family/member/${familyMember._id}`),
+        );
+      });
+    })
+    .catch((err) => next(err));
 });
 
 router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
@@ -78,7 +71,7 @@ router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
         readableDateOfDeath = convertToReadableDate(member.dateOfDeath);
       }
 
-      res.render("member/details", { member, readableDateOfBirth, readableDateOfDeath })
+      res.render("member/details", { member, readableDateOfBirth, readableDateOfDeath });
     })
     .catch((err) => next(err));
 });
