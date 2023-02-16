@@ -8,6 +8,7 @@ const FamilyMember = require("../models/FamilyMember");
 const Family = require("../models/Family");
 
 const { errors, signalBadInput } = require("../utils/errors");
+const { convertToReadableDate } = require('../utils/calculations');
 const { uploader, cloudinary } = require("../config/cloudinary");
 
 router.get("/family/member/create", isLoggedIn, (req, res, next) => {
@@ -55,7 +56,20 @@ router.post("/family/member/create", uploader.single("memberImg"), async (req, r
 
 router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
   FamilyMember.findById(req.params.memberId)
-    .then((member) => res.render("member/details", { member }))
+    .populate("parent")
+    .populate("sibling")
+    .populate("child")
+    .populate("family")
+    .then((member) => {
+      const readableDateOfBirth = convertToReadableDate(member.dateOfBirth);
+      let readableDateOfDeath;
+
+      if (member.dateOfDeath) {
+        readableDateOfDeath = convertToReadableDate(member.dateOfDeath);
+      }
+
+      res.render("member/details", { member, readableDateOfBirth, readableDateOfDeath })
+    })
     .catch((err) => next(err));
 });
 
