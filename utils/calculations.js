@@ -7,7 +7,7 @@ const calculateAgeFromBirthdate = (birthdate) => {
 
 const calculateEarliestBirthyear = (familyMembers) => {
   const membersSortedByBirthyear = familyMembers.sort((next, current) => {
-    return new Date(current.dateOfBirth).getUTCFullYear() - new Date(next.dateOfBirth).getUTCFullYear();
+    return new Date(next.dateOfBirth).getUTCFullYear() - new Date(current.dateOfBirth).getUTCFullYear();
   });
   return new Date(membersSortedByBirthyear[0].dateOfBirth).getUTCFullYear();
 }
