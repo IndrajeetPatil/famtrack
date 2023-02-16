@@ -1,0 +1,39 @@
+<div class="container d-flex">
+  <div class="row flex-grow-1 justify-content-center align-items-center">
+    <div class="col col-sm-8 col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title mb-4">Add your family!</h3>
+
+          <form class="mb-0" action="/family/create" method="POST">
+
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                name="familyName"
+                id="familyName"
+                placeholder="Family Name"
+                required
+              />
+              <label for="familyName">Family Name</label>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary py-3 mb-3" type="submit">Add Family</button>
+            </div>
+
+            {{#if errorMessage}}
+              <div class="alert alert-danger" role="alert">
+                {{errorMessage}}
+              </div>
+            {{/if}}
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
