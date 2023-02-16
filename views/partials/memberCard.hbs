@@ -5,15 +5,15 @@
         <div class="row g-0">
           <div class="col-9">
             <div class="card-title fw-bold mb-0 text-truncate">{{this.firstName}} {{this.lastName}}</div>
-            <small class="text-primary text-opacity-50 text-truncate">57 years</small>
+            <small class="text-primary text-opacity-50 text-truncate">{{age}} years</small>
           </div>
           <div class="col"></div>
-          <div class="col-2 d-flex">
+          <div class="col-2">
             <img
-              class="justify-content-center align-items-center rounded-circle"
-              src="https://ui-avatars.com/api/?name=John+Doe"
-              style="width: 2.5rem; height: 2.5rem;"
-              alt=""
+              class="rounded-circle"
+              src="{{this.imgPath}}"
+              style="width: 2rem; height: 2rem;"
+              alt="{{this.firstNane}} {{this.lastName}}"
             />
           </div>
         </div>
