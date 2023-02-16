@@ -64,8 +64,8 @@
               </div>
 
               {{! Password with toggle button }}
-              <div class="form-floating mb-3">
-                <div class="input-group">
+              <div class="input-group">
+                <div class="form-floating">
                   <input
                     type="password"
                     class="form-control"
@@ -74,12 +74,13 @@
                     placeholder="Password"
                     required
                   />
-                  <button class="btn btn-outline-secondary" type="button" id="passwordToggle">Show</button>
+                  <label for="password">Password</label>
                 </div>
+                <button class="input-group-text btn btn-outline-secondary px-4" type="button" id="passwordToggle" data-bs-toggle="button"><i class="bi bi-eye"></i></button>
               </div>
 
               {{! Terms and Conditions }}
-              <div class="mb-3 form-check">
+              <div class="mb-3 mt-3 form-check">
                 <input type="checkbox" class="form-check-input" name="terms" id="terms" required />
                 <label class="form-check-label" for="terms">I have read and agree to the
                   <a href="#">terms and conditions.</a></label>
