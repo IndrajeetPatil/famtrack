@@ -8,7 +8,7 @@ const FamilyMember = require("../models/FamilyMember");
 const Family = require("../models/Family");
 
 const { errors, signalBadInput } = require("../utils/errors");
-const { convertToReadableDate } = require('../utils/calculations');
+const { convertToReadableDate } = require("../utils/calculations");
 const { uploader, cloudinary } = require("../config/cloudinary");
 
 router.get("/family/member/create", isLoggedIn, (req, res, next) => {
@@ -20,9 +20,7 @@ router.get("/family/member/create", isLoggedIn, (req, res, next) => {
     .then((user) => {
       user.family.familyMembers.forEach((familyMemberId) => {
         FamilyMember.findById(familyMemberId)
-          .then((member) => {
-            if (member.relationship != "Self") userFamilyMembers.push(member);
-          })
+          .then((member) => userFamilyMembers.push(member))
           .then(() => res.render("member/create", { familyMember: userFamilyMembers }));
       });
     })
@@ -31,7 +29,7 @@ router.get("/family/member/create", isLoggedIn, (req, res, next) => {
 
 router.post("/family/member/create", uploader.single("memberImg"), async (req, res, next) => {
   // input validation
-  if (req.body.dateOfBirth > req.body.dateOfDeath) {
+  if (req.body.dateOfDeath && req.body.dateOfBirth > req.body.dateOfDeath) {
     return res.status(400).render("member/create", errors.deathBeforeBirth);
   }
 
@@ -40,6 +38,9 @@ router.post("/family/member/create", uploader.single("memberImg"), async (req, r
   }
 
   const userId = req.session.currentUser._id;
+  const imgName = req.file?.originalname;
+  const imgPath = req.file?.path;
+  const publicId = req.file?.filename;
 
   User.findById(userId)
     .populate("family")
@@ -68,7 +69,7 @@ router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
         readableDateOfDeath = convertToReadableDate(member.dateOfDeath);
       }
 
-      res.render("member/details", { member, readableDateOfBirth, readableDateOfDeath })
+      res.render("member/details", { member, readableDateOfBirth, readableDateOfDeath });
     })
     .catch((err) => next(err));
 });
