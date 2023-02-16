@@ -55,7 +55,7 @@ router.get("/family/:familyId", isLoggedIn, (req, res, next) => {
       // Get earliest birth year
       const earliestBirthyear = calculateEarliestBirthyear(family.familyMembers);
 
-      return res.render("family/details", { members: family.familyMembers, numberOfMembers, earliestBirthyear })
+      return res.render("family/details", { familyName: family.familyName, members: family.familyMembers, numberOfMembers, earliestBirthyear })
     })
     .catch((err) => next(err));
 })
