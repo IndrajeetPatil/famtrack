@@ -7,6 +7,7 @@ const axios = require("axios");
 const FamilyMember = require("../models/FamilyMember");
 
 router.get("/family/member/create", (req, res, next) =>
+
   res.render("member/create")
 );
 
