@@ -11,7 +11,6 @@ const { errors, signalBadInput } = require("../utils/errors");
 const { convertToReadableDate } = require("../utils/calculations");
 const { uploader, cloudinary } = require("../config/cloudinary");
 
-
 router.get("/family/member/create", isLoggedIn, (req, res, next) => {
   const userId = req.session.currentUser._id;
   let userFamilyMembers = [];
@@ -28,7 +27,7 @@ router.get("/family/member/create", isLoggedIn, (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.post("/family/member/create", uploader.single("memberImg"), async (req, res, next) => {
+router.post("/family/member/create", uploader.single("memberImg"), (req, res, next) => {
   // input validation
   if (req.body.dateOfDeath && req.body.dateOfBirth > req.body.dateOfDeath) {
     return res.status(400).render("member/create", errors.deathBeforeBirth);
@@ -43,11 +42,36 @@ router.post("/family/member/create", uploader.single("memberImg"), async (req, r
   const imgPath = req.file?.path;
   const publicId = req.file?.filename;
 
+  const parentId = req.body.parent;
+  const siblingId = req.body.sibling;
+  const childId = req.body.child;
+
+  console.log("req body", req.body);
+  console.log("parent id", parentId);
+
   User.findById(userId)
     .populate("family")
     .then((user) => {
       const family = user.family;
       FamilyMember.create({ ...req.body, imgName, imgPath, publicId, family }).then((familyMember) => {
+        // establish relationships
+        if (parentId) {
+          console.log("parent id", parentId);
+          console.log("family member id", familyMember._id);
+          // familyMember.parent.push(parentId[0]);
+          //FamilyMember.findByIdAndUpdate(familyMember._id, { $push: { parent: parentId } });
+          FamilyMember.findByIdAndUpdate(parentId, { $push: { child: familyMember._id } });
+        }
+
+        // if (siblingId) {
+        //   familyMember.sibling.push(siblingId);
+        //   FamilyMember.findById(siblingId).then((sibling) => sibling.sibling.push(familyMember._id));
+        // }
+        // if (childId) {
+        //   familyMember.child.push(childId);
+        //   FamilyMember.findById(childId).then((child) => child.parent.push(familyMember._id));
+        // }
+
         const family = user.family._id;
         Family.findByIdAndUpdate(family, { $push: { familyMembers: familyMember._id } }).then(() =>
           res.redirect(`/family/member/${familyMember._id}`),
