@@ -183,6 +183,17 @@
                 <button type="submit" class="btn btn-primary md-2">Submit</button>
 
               </form>
+              <div class="row">
+                <div class="col">
+                  <br />
+                  {{! Ugly ad hoc fix }}
+                  <h4 class="h4 fs-6 md-3">Do you wish to delete this family member?
+                  </h4>
+                  <form action="/family/member/{{member._id}}/delete" method="GET" class="form mb-3">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </div>
