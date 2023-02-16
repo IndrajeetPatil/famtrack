@@ -42,12 +42,9 @@ router.post("/family/member/create", uploader.single("memberImg"), (req, res, ne
   const imgPath = req.file?.path;
   const publicId = req.file?.filename;
 
-  const parentId = req.body.parent;
-  const siblingId = req.body.sibling;
-  const childId = req.body.child;
-
-  console.log("req body", req.body);
-  console.log("parent id", parentId);
+  const parentId = req.body?.parent;
+  const siblingId = req.body?.sibling;
+  const childId = req.body?.child;
 
   User.findById(userId)
     .populate("family")
@@ -56,24 +53,28 @@ router.post("/family/member/create", uploader.single("memberImg"), (req, res, ne
       FamilyMember.create({ ...req.body, imgName, imgPath, publicId, family }).then((familyMember) => {
         // establish relationships
         if (parentId) {
-          console.log("parent id", parentId);
-          console.log("family member id", familyMember._id);
-          // familyMember.parent.push(parentId[0]);
-          //FamilyMember.findByIdAndUpdate(familyMember._id, { $push: { parent: parentId } });
-          FamilyMember.findByIdAndUpdate(parentId, { $push: { child: familyMember._id } });
+          let parentIdArray = [...parentId];
+          parentIdArray.forEach((parent) => {
+            FamilyMember.findByIdAndUpdate(parent, { $push: { child: [familyMember._id] } });
+          });
         }
 
-        // if (siblingId) {
-        //   familyMember.sibling.push(siblingId);
-        //   FamilyMember.findById(siblingId).then((sibling) => sibling.sibling.push(familyMember._id));
-        // }
-        // if (childId) {
-        //   familyMember.child.push(childId);
-        //   FamilyMember.findById(childId).then((child) => child.parent.push(familyMember._id));
-        // }
+        if (siblingId) {
+          let siblingIdArray = [...siblingId];
+          siblingIdArray.forEach((sibling) => {
+            FamilyMember.findByIdAndUpdate(sibling, { $push: { sibling: [familyMember._id] } });
+          });
+        }
 
-        const family = user.family._id;
-        Family.findByIdAndUpdate(family, { $push: { familyMembers: familyMember._id } }).then(() =>
+        if (childId) {
+          let childIdArray = [...childId];
+          childIdArray.forEach((child) => {
+            FamilyMember.findByIdAndUpdate(child, { $push: { parent: [familyMember._id] } });
+          });
+        }
+
+        const familyId = user.family._id;
+        Family.findByIdAndUpdate(familyId, { $push: { familyMembers: familyMember._id } }).then(() =>
           res.redirect(`/family/member/${familyMember._id}`),
         );
       });
