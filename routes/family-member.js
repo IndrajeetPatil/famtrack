@@ -44,9 +44,8 @@ router.post(
       }
 
       const userId = req.session.currentUser._id
-      const user = await User.findById(userId)
-      const family = user.family
-      
+      const { family } = await User.findById(userId)
+
       const familyMember = await FamilyMember.create({
         ...req.body,
         imgName,
