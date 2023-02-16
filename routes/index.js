@@ -8,6 +8,9 @@ const User = require("../models/User");
 /* GET home page */
 router.get("/", isLoggedOut, (req, res) => res.render("index"));
 
+router.get("/about", (req, res) => res.render("about"));
+router.get("/terms", (req, res) => res.render("terms"));
+
 router.get("/start", isLoggedIn, (req, res, next) => {
   User.findById(req.session.currentUser._id)
     .populate("family")
