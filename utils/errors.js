@@ -5,8 +5,11 @@ const errors = {
   duplicateEmail: {
     errorMessage: "Email already exists. Please provide a different email.",
   },
-  birthdateLiesAhead: {
+  birthInFuture: {
     errorMessage: "The birthdate you provided lies in the future. Please enter a date in the past.",
+  },
+  deathBeforeBirth: {
+    errorMessage: "The death date you provided lies before the birthdate. Please enter a valid death date.",
   },
   invalidBirthdate: {
     errorMessage: "The birthdate you provided is invalid. Please enter a different birthdate.",
