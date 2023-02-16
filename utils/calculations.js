@@ -12,16 +12,23 @@ const calculateEarliestBirthyear = (familyMembers) => {
   return new Date(membersSortedByBirthyear[0].dateOfBirth).getUTCFullYear();
 }
 
-const convertToReadableDate = (date) => {
+const convertToReadableDate = (date, delimiter) => {
   const birthDay = String(date.getDay()).padStart(2, "0");
   const birthMonth = String(date.getMonth() + 1).padStart(2, "0");
   const birthYear = date.getFullYear();
-  return `${birthDay}.${birthMonth}.${birthYear}`;
+  return `${birthDay}${delimiter}${birthMonth}${delimiter}${birthYear}`;
 }
+
+function filterMembers(memberArray, selectedArray) {
+  return memberArray.filter(val => !selectedArray.includes(val));
+}
+
+
 
 
 module.exports = {
   calculateAgeFromBirthdate,
   calculateEarliestBirthyear,
-  convertToReadableDate
+  convertToReadableDate,
+  filterMembers
 }

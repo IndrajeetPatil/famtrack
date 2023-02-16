@@ -1,193 +1,224 @@
-{{#with member}}
+<div class="container-fluid d-flex flex-column">
+  <div class="row mt-5">
+    <div class="col"></div>
+    <div class="col-4 d-flex justify-content-center align-items-center">
+      <div class="container-fluid m-4">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="h2 fs-3 fw-bold">Edit Family Member</h2>
+            <form class="mb-0" action="/family/member/create" method="POST" enctype="multipart/form-data">
+              <h4 class="h4 fs-6">Edit Details About {{member.firstName}} {{member.lastName}}</h4>
 
-  <div class="container-fluid d-flex flex-column">
-    <div class="row row-cols-1 row-cols-md-2 d-flex align-items-center flex-grow-1">
-
-      <div class="col d-flex justify-content-center align-items-center">
-        <div class="container-fluid m-4">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="h2 fs-3 fw-bold">Update Family Member details</h2>
-              <form class="mb-0" action="/family/member/edit" method="POST" enctype="multipart/form-data">
-
-                {{! First name / Last name }}
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="text"
-                        name="firstName"
-                        class="form-control"
-                        id="firstName"
-                        value="{{firstName}}"
-                        required
-                      />
-                      <label for="firstName">First name</label>
-                    </div>
+              {{! First name }}
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      name="firstName"
+                      class="form-control"
+                      id="firstName"
+                      value="{{member.firstName}}"
+                      required
+                    />
+                    <label for="firstName">First name</label>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="text"
-                        name="lastName"
-                        class="form-control"
-                        id="lastName"
-                        value="{{lastName}}"
-                        required
-                      />
-                      <label for="lastName">Last name</label>
-                    </div>
+              </div>
+
+              {{! LastName }}
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      name="lastName"
+                      class="form-control"
+                      id="lastName"
+                      value="{{member.lastName}}"
+                      required
+                    />
+                    <label for="lastName">Last name</label>
                   </div>
                 </div>
+              </div>
 
-                {{! Sex }}
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <select class="form-select mb-3" id="sex" name="sex">
+              {{! Sex }}
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <select class="form-select mb-3" id="sex" name="sex">
+                      {{#if member.sex}}
+                        <option selected>{{member.sex}}</option>
+                      {{else}}
                         <option selected>Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Non-binary">Non-binary</option>
-                      </select>
-                    </div>
+                      {{/if}}
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Non-binary">Non-binary</option>
+                    </select>
+                    <label for="placeOfBirth">Select Gender</label>
                   </div>
                 </div>
-
-                {{! Dates and locations (birth/death) }}
-                {{! TODO: Should link to mapbox for places  }}
-                <h4 class="h4 fs-6 md-3">Update Information about Birth Day and Place</h4>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="dateOfBirth"
-                        name="dateOfBirth"
-                        value="1900-01-01"
-                        min="0000-00-00"
-                        max="3000-12-12"
-                        value="{{dateOfBirth}}"
-                      />
-                    </div>
+              </div>
+              {{! Dates and locations (birth/death) }}
+              {{! TODO: Should link to mapbox for places  }}
+              <h4 class="h4 fs-6 md-3">Add information about birth date and place of birth</h4>
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dateOfBirth"
+                      name="dateOfBirth"
+                      placeholder="{{readableDateOfBirth}}"
+                      min="0000-00-00"
+                      max="3000-12-12"
+                    />
+                    <label for="placeOfBirth">Current Birthdate: {{readableDateOfBirth}}</label>
                   </div>
                 </div>
+              </div>
 
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="placeOfBirth"
-                        name="placeOfBirth"
-                        value="{{placeOfBirth}}"
-                        required
-                      />
-                      <label for="placeOfBirth">Birth Place</label>
-                    </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="placeOfBirth"
+                      name="placeOfBirth"
+                      value="{{member.placeOfBirth}}"
+                      required
+                    />
+                    <label for="placeOfBirth">Place of Birth</label>
                   </div>
                 </div>
+              </div>
 
-                <h4 class="h4 fs-6 md-3">If relevant add information about date of death and location
-                </h4>
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="date"
-                        class="form-control"
-                        id="dateOfDeath"
-                        name="dateOfDeath"
-                        value="1900-01-01"
-                        min="0000-00-00"
-                        max="3000-12-12"
-                        value="{{dateOfDeath}}"
-                      />
-                    </div>
+              <h4 class="h4 fs-6 md-3">If relevant add information about date of death and location
+              </h4>
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dateOfDeath"
+                      name="dateOfDeath"
+                      placeholder="{{readableDateOfDeath}}"
+                      min="0000-00-00"
+                      max="3000-12-12"
+                    />
+                    {{#if placeOfDeath}}
+                      <label for="placeOfBirth">Current date for death:{{readableDateOfDeath}}</label>
+                    {{else}}
+                      <label for="placeOfBirth">Date of death</label>
+                    {{/if}}
                   </div>
                 </div>
+              </div>
 
-                <div class="row">
-                  <div class="col">
-                    <div class="form-floating mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="placeOfDeath"
-                        value="{{placeOfDeath}}"
-                        name="placeOfDeath"
-                      />
-                      <label for="placeOfDeath">Place of Death</label>
-                    </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="placeOfDeath"
+                      placeholder="placeofDeath"
+                      value="{{member.placeOfDeath}}"
+                      name="placeOfDeath"
+                    />
+                    <label for="placeOfDeath">Place of Death</label>
                   </div>
                 </div>
+              </div>
 
-                {{! Images }}
-                <div class="row">
-                  <div class="col">
-                    <label class="form-label mb-3" for="memberImage">Upload Image</label>
-                    <input type="file" class="form-control" id="memberImage" name="memberImage" />
-                  </div>
+              {{#if errorMessage}}
+                <div class="alert alert-danger" role="alert">
+                  {{errorMessage}}
                 </div>
+              {{/if}}
 
-                {{! Family members }}
-                <div class="container mt-4">
-                  <div class="form-group">
-                    <label for="searchInput">Search for Parents</label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control" value="Enter a family member name" id="searchInput" />
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Search</button>
-                      </div>
-                    </div>
-                    <div class="search-results" name="parent">
-                      <!-- Search results will be added dynamically here -->
-                    </div>
-                  </div>
+              {{! Images }}
+              <div class="row">
+                <div class="col">
+                  <label class="form-label mb-3" for="memberImg">Upload Image</label>
+                  <input type="file" class="form-control" id="memberImg" name="memberImg" />
                 </div>
+              </div>
 
-                <div class="container mt-4">
-                  <div class="form-group">
-                    <label for="searchInput">Search for Siblings</label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control" value="Enter a family member name" id="searchInput" />
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Search</button>
-                      </div>
-                    </div>
-                    <div class="search-results" name="sibling">
-                      {{! <!-- Search results will be added dynamically here --> }}
-                    </div>
-                  </div>
+              {{! Parents }}
+              <div class="row">
+                <div class="col">
+                  <br />
+                  {{! Ugly ad hoc fix }}
+                  <h4 class="h4 fs-6 md-3">If already added, select parents:
+                  </h4>
+                  <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="parent">
+                    {{#if filteredParents}}
+                      {{#each filteredParents}}
+                        <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                      {{/each}}
+                    {{/if}}
+                    {{#if selectedParents}}
+                      {{#each selectedParents}}
+                        <option value="{{_id}}" selected>{{firstName}} {{lastName}}</option>
+                      {{/each}}
+                    {{/if}}
+                  </select>
                 </div>
+              </div>
 
-                <div class="container mt-4">
-                  <div class="form-group">
-                    <label for="searchInput">Search for Children</label>
-                    <div class="input-group mb-3">
-                      <input type="text" class="form-control" value="Enter a family member name" id="searchInput" />
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Search</button>
-                      </div>
-                    </div>
-                    <div class="search-results" name="child">
-                      {{! <!-- Search results will be added dynamically here --> }}
-                    </div>
-                  </div>
+              {{! Siblings }}
+              <div class="row">
+                <div class="col">
+                  <h4 class="h4 fs-6 md-3">If already added, select siblings:
+                  </h4>
+                  <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="parent"></select>
+                    {{#if filteredSiblings}}
+                      {{#each filteredSiblings}}
+                        <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                      {{/each}}
+                    {{/if}}
+                    {{#if selectedSiblings}}
+                      {{#each selectedSiblings}}
+                        <option value="{{_id}}" selected>{{firstName}} {{lastName}}</option>
+                      {{/each}}
+                    {{/if}}
+                  </select>
                 </div>
+              </div>
 
-                <button type="submit" class="btn btn-primary md-2">Submit</button>
+              {{! Children }}
+              <div class="row">
+                <div class="col">
+                  <h4 class="h4 fs-6 md-3">If already added, select children:
+                  </h4>
+                  <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="child">
+                    {{#if filteredChildren}}
+                      {{#each filteredChildren}}
+                        <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                      {{/each}}
+                    {{/if}}
+                    {{#if selectedChildren}}
+                      {{#each selectedChildren}}
+                        <option value="{{_id}}" selected>{{firstName}} {{lastName}}</option>
+                      {{/each}}
+                    {{/if}}
+                  </select>
+                </div>
+              </div>
 
-              </form>
-            </div>
+              <button type="submit" class="btn btn-primary md-2">Submit</button>
+
+            </form>
           </div>
         </div>
       </div>
     </div>
+    <div class="col"></div>
   </div>
-
-{{/with}}
+</div>
