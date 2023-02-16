@@ -8,6 +8,8 @@ const axios = require("axios");
 const User = require("../models/User");
 const FamilyMember = require("../models/FamilyMember");
 
+const { convertToReadableDate } = require('../utils/calculations');
+
 
 router.get("/family/member/create", isLoggedIn,(req, res, next) =>{
   // Get userId from session => find family member Ids from user => create array of family member objects
@@ -65,7 +67,20 @@ router.post(
 
 router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
   FamilyMember.findById(req.params.memberId)
-    .then((member) => res.render("member/details", { member }))
+    .populate("parent")
+    .populate("sibling")
+    .populate("child")
+    .populate("family")
+    .then((member) => {
+      const readableDateOfBirth = convertToReadableDate(member.dateOfBirth);
+      let readableDateOfDeath;
+
+      if (member.dateOfDeath) {
+        readableDateOfDeath = convertToReadableDate(member.dateOfDeath);
+      }
+
+      res.render("member/details", { member, readableDateOfBirth, readableDateOfDeath })
+    })
     .catch((err) => next(err));
 });
 
