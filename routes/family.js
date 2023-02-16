@@ -43,7 +43,7 @@ router.get("/family/:familyId", isLoggedIn, (req, res, next) => {
 
   Family.findById(familyId)
     .populate("familyMembers")
-    .then(family => {
+    .then((family) => {
       const numberOfMembers = family.familyMembers.length;
 
       // Calculates age and adds it to the member object as "age" property
