@@ -45,7 +45,7 @@ router.post("/auth/signup", isLoggedOut, (req, res, next) => {
   // Validate birthdate is not in the future
   const today = new Date();
   if (today - dateOfBirth < 0) {
-    return signalBadInput(res, "index", errors.birthdateLiesAhead);
+    return signalBadInput(res, "index", errors.birthInFuture);
   }
 
   // Validate user has agreed to terms and conditions
