@@ -11,6 +11,7 @@ const Family = require("../models/Family");
 
 const { convertToReadableDate } = require('../utils/calculations');
 
+
 router.get("/family/member/create", isLoggedIn, (req, res, next) => {
   // Get userId from session => find family member Ids from user => create array of family member objects
   const userId = req.session.currentUser._id;

@@ -1,12 +1,5 @@
-/* body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
-a {
-  color: #00b7ff;
+body {
+  font-family: "Inter", sans-serif;
 }
-
-h1 {
-  color: 15px;
-} */
