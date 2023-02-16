@@ -25,6 +25,11 @@
     {{! Stylesheet }}
     <link rel="stylesheet" href="/stylesheets/style.css" />
 
+    {{! Mapbox }}
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+
+
   </head>
 
   <body>
@@ -35,7 +40,7 @@
 
         <div class="container-fluid">
 
-          <a class="navbar-brand" href="#">FamTrack</a>
+          <a class="navbar-brand" href="/">FamTrack</a>
 
           <button
             class="navbar-toggler"
@@ -46,48 +51,23 @@
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon" style="filter: grayscale(1) invert(1) brightness(10);"></span>
           </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Link</a>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link active dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-
-              <li class="nav-item">
                 <a class="nav-link about-us active" href="/about">About Us</a>
               </li>
 
             </ul>
+
+            <span class="navbar-text">
+              <a class="btn btn-outline-light" href="/logout">Log Out</a>
+            </span>
           </div>
 
-          <span class="navbar-text">
-            <a class="btn btn-outline-light" href="/logout">Log Out</a>
-          </span>
 
         </div>
       </nav>
