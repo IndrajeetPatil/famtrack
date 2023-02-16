@@ -24,8 +24,19 @@
               </div>
 
               <div class="col">
-                <a class="btn btn-outline-secondary btn-sm" href="/family/member/{{member._id}}/edit"><i
-                    class="bi bi-pencil-square me-2"></i>Edit</a>
+                <a class="btn btn-outline-secondary btn-sm p-2 px-sm-2 py-sm-1" href="/family/member/{{member._id}}/edit">
+                  <i class="bi bi-pencil-square m-0 me-sm-2"></i>
+                  <span class="d-none d-sm-inline">Edit</span>
+                </a>
+              </div>
+
+              <div class="col"></div>
+
+              <div class="col align-items-center ms-auto">
+                <a class="btn btn-primary btn-sm p-2 px-sm-2 py-sm-1" href="/family/{{member.family._id}}">
+                  <i class="bi bi-people m-0 me-sm-2"></i>
+                  <span class="d-none d-sm-inline">Back to family</span>
+                </a>
               </div>
               
             </div>
