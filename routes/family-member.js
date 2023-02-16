@@ -7,7 +7,6 @@ const axios = require("axios");
 
 const User = require("../models/User");
 const FamilyMember = require("../models/FamilyMember");
-const isLoggedIn = require("../middleware/isLoggedIn");
 
 
 router.get("/family/member/create", isLoggedIn,(req, res, next) =>{
