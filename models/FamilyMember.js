@@ -45,18 +45,24 @@ const familyMemberSchema = new mongoose.Schema({
     default: "Self",
     enum: ["Self", "Parent", "Sibling", "Child"],
   },
-  parent: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "FamilyMember",
-  },
-  sibling: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "FamilyMember",
-  },
-  child: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "FamilyMember",
-  },
+  parent: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "FamilyMember",
+    },
+  ],
+  sibling: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "FamilyMember",
+    },
+  ],
+  child: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "FamilyMember",
+    },
+  ],
   family: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Family",
