@@ -8,14 +8,11 @@ const User = require("../models/User");
 const FamilyMember = require("../models/FamilyMember");
 const LifeEvent = require("../models/LifeEvent");
 
-const { calculateAgeFromBirthdate, calculateEarliestBirthyear } = require('../utils/calculations');
+const { calculateAgeFromBirthdate, calculateEarliestBirthyear } = require("../utils/calculations");
 
 const { uploader, cloudinary } = require("../config/cloudinary");
 
-router.get("/family/details", isLoggedIn, (req, res) => {
-  const user = req.session.currentUser;
-  res.render(`family/${user.family._id}/details`);
-});
+router.get("/family/details", isLoggedIn, (req, res) => res.render("family/details"));
 
 router.get("/family/create", isLoggedIn, (req, res) => res.render("family/create"));
 
@@ -52,14 +49,14 @@ router.get("/family/:familyId", isLoggedIn, (req, res, next) => {
       family.familyMembers.forEach((member) => {
         const age = calculateAgeFromBirthdate(member.dateOfBirth);
         member.age = age;
-      })
+      });
 
       // Get earliest birth year
       const earliestBirthyear = calculateEarliestBirthyear(family.familyMembers);
 
-      return res.render("family/details", { members: family.familyMembers, numberOfMembers, earliestBirthyear })
+      return res.render("family/details", { members: family.familyMembers, numberOfMembers, earliestBirthyear });
     })
     .catch((err) => next(err));
-})
+});
 
 module.exports = router;
