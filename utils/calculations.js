@@ -1,6 +1,6 @@
 const calculateAgeFromBirthdate = (birthdate) => {
   const today = new Date();
-  const millisecondToYearConversion = 1000 / 60 / 60 / 24 / 365;
+  const millisecondToYearConversion = 1000 * 60 * 60 * 24 * 365;
   let age = Math.floor((today - new Date(birthdate)) / millisecondToYearConversion);
   return age;
 }
