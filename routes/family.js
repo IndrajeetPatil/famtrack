@@ -24,10 +24,10 @@ router.post("/family/create", isLoggedIn, (req, res, next) => {
     .then((user) => {
       Family.create({ familyName: req.body.familyName }).then((family) => {
         User.findByIdAndUpdate(userId, { family: family._id }, { new: true }).then((user) => {
-          FamilyMember.create({ firstName: user.firstName, lastName: user.lastName, family: user.family }).then(
+          FamilyMember.create({ firstName: user.firstName, lastName: user.lastName, dateOfBirth: user.dateOfBirth, family: user.family }).then(
             (member) => {
               Family.findByIdAndUpdate(user.family._id, { $push: { familyMembers: member._id } }).then(() => {
-                res.render("family/details");
+                res.redirect(`/family/${user.family._id}`);
               });
             },
           );
@@ -54,7 +54,7 @@ router.get("/family/:familyId", isLoggedIn, (req, res, next) => {
       // Get earliest birth year
       const earliestBirthyear = calculateEarliestBirthyear(family.familyMembers);
 
-      return res.render("family/details", { members: family.familyMembers, numberOfMembers, earliestBirthyear });
+      return res.render("family/details", { familyName: family.familyName, members: family.familyMembers, numberOfMembers, earliestBirthyear })
     })
     .catch((err) => next(err));
 });

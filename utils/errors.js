@@ -5,6 +5,12 @@ const errors = {
   duplicateEmail: {
     errorMessage: "Email already exists. Please provide a different email.",
   },
+  birthdateLiesAhead: {
+    errorMessage: "The birthdate you provided lies in the future. Please enter a date in the past.",
+  },
+  invalidBirthdate: {
+    errorMessage: "The birthdate you provided is invalid. Please enter a different birthdate.",
+  },
   termsNotAccepted: {
     errorMessage: "You must accept the terms and conditions to sign up.",
   },
