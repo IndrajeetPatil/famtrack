@@ -41,30 +41,30 @@
               
             </div>
 
-            <div class="row row-cols-1 row-cols-md-auto g-0 p-3 rounded border-light-subtle shadow-sm">
+            <div class="row row-cols-1 row-cols-md-auto g-4 m-0 p-3 rounded shadow-sm">
               {{#if readableDateOfBirth}}
-              <div class="col">
+              <div class="col ps-1 mt-0">
                 <small class="text-secondary text-opacity-75">Date of birth</small>
                 <p class="m-0">{{readableDateOfBirth}}</p>
               </div>
               {{/if}}
 
               {{#if member.placeOfBirth}}
-              <div class="col">
+              <div class="col mt-3 mt-sm-0">
                 <small class="text-secondary text-opacity-75">Place of birth</small>
                 <p class="m-0">{{member.placeOfBirth}}</p>
               </div>
               {{/if}}
 
               {{#if readableDateOfDeath}}
-              <div class="col">
+              <div class="col mt-3 mt-sm-0">
                 <small class="text-secondary text-opacity-75">Date of death</small>
                 <p class="m-0">{{readableDateOfDeath}}</p>
               </div>
               {{/if}}
 
               {{#if member.placeOfBirth}}
-              <div class="col">
+              <div class="col mt-3 mt-sm-0">
                 <small class="text-secondary text-opacity-75">Place of death</small>
                 <p class="m-0">{{member.placeOfDeath}}</p>
               </div>
@@ -86,7 +86,8 @@
               {{! Parents}}
               {{#if member.parent}}
               <div class="container p-0">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4 g-3">
+                <h6 class="mt-4">Parents</h6>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
 
                   {{#each member.parent}}
                     {{> memberCard this}}
@@ -99,7 +100,8 @@
               {{! Children}}
               {{#if member.child}}
               <div class="container p-0">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4 g-3">
+                <h6 class="mt-4">Children</h6>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
 
                   {{#each member.child}}
                     {{> memberCard this}}
@@ -112,7 +114,8 @@
               {{! Siblings }}
               {{#if member.sibling}}
               <div class="container p-0">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4 g-3">
+                <h6 class="mt-4">Siblings</h6>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
 
                   {{#each member.sibling}}
                     {{> memberCard this}}
@@ -143,9 +146,7 @@
 
           </div>
           <div class="col col-xl-4 order-1 order-xl-2 px-0 ps-xl-2">
-            <div class="container border rounded-3 p-3 bg-success">
-              <p class="text-light">Map</p> 
-            </div>
+            <div class="container rounded-3 p-3 shadow-sm h-100 display-inline-block" id="map" style="min-height: 15rem;"></div>
           </div>
         </div>
       </div>
