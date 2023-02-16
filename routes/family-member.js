@@ -9,17 +9,17 @@ const FamilyMember = require("../models/FamilyMember");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 router.get("/family/member/create", isLoggedIn,(req, res, next) =>{
+  // Get userId from session => find family member Ids from user => create array of family member objects
   const userId = req.session.currentUser._id
-  console.log("userid:", userId)
+  let userFamilyMembers = []
   User.findById(userId)
   .populate("family")
   .then((user) => {
-    console.log(user)
-    FamilyMember.find(user.family._id)})
-    .then((member) => {
-      console.log(member)
-      res.render("member/create", {familyMember : member})
- 
+    user.family.familyMembers.forEach(familyMemberId => {
+      FamilyMember.findById(familyMemberId)
+      .then(member => userFamilyMembers.push(member))
+      .then(() => res.render("member/create",{familyMember : userFamilyMembers}))
+    });
   })
   .catch(err => console.log(err))
 }
