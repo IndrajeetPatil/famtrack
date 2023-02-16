@@ -43,8 +43,10 @@ router.post(
         publicId = req.file.filename;
       }
 
-      const family = req.session.currentUser.family
-
+      const userId = req.session.currentUser._id
+      const user = await User.findById(userId)
+      const family = user.family
+      
       const familyMember = await FamilyMember.create({
         ...req.body,
         imgName,
