@@ -9,44 +9,39 @@ const User = require("../models/User");
 const FamilyMember = require("../models/FamilyMember");
 const Family = require("../models/Family")
 
-
-router.get("/family/member/create", isLoggedIn,(req, res, next) =>{
+router.get("/family/member/create", isLoggedIn, (req, res, next) => {
   // Get userId from session => find family member Ids from user => create array of family member objects
-  const userId = req.session.currentUser._id
-  let userFamilyMembers = []
+  const userId = req.session.currentUser._id;
+  let userFamilyMembers = [];
   User.findById(userId)
-  .populate("family")
-  .then((user) => {
-    user.family.familyMembers.forEach(familyMemberId => {
-      FamilyMember.findById(familyMemberId)
-      .then(member => userFamilyMembers.push(member))
-      .then(() => res.render("member/create",{familyMember : userFamilyMembers}))
-    });
-  })
-  .catch(err => console.log(err))
-}
-);
+    .populate("family")
+    .then((user) => {
+      user.family.familyMembers.forEach((familyMemberId) => {
+        FamilyMember.findById(familyMemberId)
+          .then((member) => userFamilyMembers.push(member))
+          .then(() => res.render("member/create", { familyMember: userFamilyMembers }));
+      });
+    })
+    .catch((err) => console.log(err));
+});
 
-router.post(
-  "/family/member/create",
-  uploader.single("memberImg"),
-  async (req, res, next) => {
-    try {
-      let { imgName = "", imgPath = "", publicId = "" } = {};
+router.post("/family/member/create", uploader.single("memberImg"), async (req, res, next) => {
+  try {
+    let { imgName = "", imgPath = "", publicId = "" } = {};
 
-      if (!req.file) {
-        const response = await axios.get(
-          `https://ui-avatars.com/api/?background=random&name=${req.body.firstName}+${req.body.lastName}&format=svg`
-        );
-        imgPath = response.config.url;
-      } else {
-        imgName = req.file.originalname;
-        imgPath = req.file.path;
-        publicId = req.file.filename;
-      }
+    if (!req.file) {
+      const response = await axios.get(
+        `https://ui-avatars.com/api/?background=random&name=${req.body.firstName}+${req.body.lastName}&format=svg`,
+      );
+      imgPath = response.config.url;
+    } else {
+      imgName = req.file.originalname;
+      imgPath = req.file.path;
+      publicId = req.file.filename;
+    }
 
-      const userId = req.session.currentUser._id
-      const { family } = await User.findById(userId)
+    const userId = req.session.currentUser._id;
+    const { family } = await User.findById(userId);
 
       const familyMember = await FamilyMember.create({
         ...req.body,
@@ -59,13 +54,12 @@ router.post(
       // Add the member to current users family
       const addMemberToFamily = await Family.findByIdAndUpdate(family , { $push: { familyMembers: familyMember._id } })
 
-      res.redirect(`/family/member/${familyMember._id}`);
-    } catch (err) {
-      console.log(err);
-      next(err);
-    }
+    res.redirect(`/family/member/${familyMember._id}`);
+  } catch (err) {
+    console.log(err);
+    next(err);
   }
-);
+});
 
 router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
   FamilyMember.findById(req.params.memberId)

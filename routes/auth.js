@@ -34,7 +34,7 @@ router.post("/auth/signup", isLoggedOut, (req, res, next) => {
   if (birthDay <= 0 || birthDay > 31) {
     return signalBadInput(res, "index", errors.invalidBirthdate);
   }
-  
+
   if (birthMonth <= 0 || birthMonth > 12) {
     return signalBadInput(res, "index", errors.mandatorySignupFieldsMissing);
   }
@@ -68,7 +68,9 @@ router.post("/auth/signup", isLoggedOut, (req, res, next) => {
   bcrypt
     .genSalt(saltRounds)
     .then((salt) => bcrypt.hash(password, salt))
-    .then((hashedPassword) => User.create({ firstName, lastName, dateOfBirth, username, email, password: hashedPassword }))
+    .then((hashedPassword) =>
+      User.create({ firstName, lastName, dateOfBirth, username, email, password: hashedPassword }),
+    )
     .then((user) => {
       req.session.currentUser = user.toObject();
       delete req.session.currentUser.password;
