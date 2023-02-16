@@ -33,7 +33,9 @@ router.post("/auth/signup", isLoggedOut, (req, res, next) => {
   // Validate birthdate is within ranges
   if (birthDay <= 0 || birthDay > 31) {
     return signalBadInput(res, "index", errors.invalidBirthdate);
-  } else if (birthMonth <= 0 || birthMonth > 12) {
+  }
+  
+  if (birthMonth <= 0 || birthMonth > 12) {
     return signalBadInput(res, "index", errors.mandatorySignupFieldsMissing);
   }
 
