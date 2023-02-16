@@ -7,7 +7,7 @@ const axios = require("axios");
 
 const User = require("../models/User");
 const FamilyMember = require("../models/FamilyMember");
-const Family = require("../models/Family")
+const Family = require("../models/Family");
 
 router.get("/family/member/create", isLoggedIn, (req, res, next) => {
   // Get userId from session => find family member Ids from user => create array of family member objects
@@ -43,16 +43,16 @@ router.post("/family/member/create", uploader.single("memberImg"), async (req, r
     const userId = req.session.currentUser._id;
     const { family } = await User.findById(userId);
 
-      const familyMember = await FamilyMember.create({
-        ...req.body,
-        imgName,
-        imgPath,
-        publicId,
-        family
-      });
+    const familyMember = await FamilyMember.create({
+      ...req.body,
+      imgName,
+      imgPath,
+      publicId,
+      family,
+    });
 
-      // Add the member to current users family
-      const addMemberToFamily = await Family.findByIdAndUpdate(family , { $push: { familyMembers: familyMember._id } })
+    // Add the member to current users family
+    const addMemberToFamily = await Family.findByIdAndUpdate(family, { $push: { familyMembers: familyMember._id } });
 
     res.redirect(`/family/member/${familyMember._id}`);
   } catch (err) {
