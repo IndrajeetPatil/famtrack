@@ -26,6 +26,10 @@ const familyMemberSchema = new mongoose.Schema({
     type: Date,
     required: false,
   },
+  dateOfDeath: {
+    type: Date,
+    required: false,
+  },
   placeOfDeath: {
     type: String,
     required: false,

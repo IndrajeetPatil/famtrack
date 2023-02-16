@@ -67,7 +67,7 @@
                         class="form-control"
                         id="dateOfBirth"
                         name="dateOfBirth"
-                        value="1900-01-01"
+                        placeholder="mm/dd/yyyy"
                         min="0000-00-00"
                         max="3000-12-12"
                       />
@@ -101,7 +101,7 @@
                         class="form-control"
                         id="dateOfDeath"
                         name="dateOfDeath"
-                        value="1900-01-01"
+                        placeholder="mm/dd/yyyy"
                         min="0000-00-00"
                         max="3000-12-12"
                       />
@@ -127,72 +127,50 @@
                 {{! Images }}
                 <div class="row">
                   <div class="col">
-                    <label class="form-label mb-3" for="memberImage">Upload Image</label>
-                    <input type="file" class="form-control" id="memberImage" name="memberImage" />
+                    <label class="form-label mb-3" for="memberImg">Upload Image</label>
+                    <input type="file" class="form-control" id="memberImg" name="memberImg" />
                   </div>
                 </div>
-
-                {{! Family members }}
-                <div class="container mt-4">
-                  <div class="form-group">
-                    <label for="searchInput">Search for Parents</label>
-                    <div class="input-group mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Enter a family member name"
-                        id="searchInput"
-                      />
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Search</button>
-                      </div>
-                    </div>
-                    <div class="search-results" name="parent">
-                      <!-- Search results will be added dynamically here -->
-                    </div>
+                <div class="row">
+                  <div class="col">
+                    <h4 class="h4 fs-6 md-3">If already added, select parents:
+                    </h4>
+                    <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="parent">
+                      {{#if familyMember}}
+                        {{#each familyMember}}
+                          <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                        {{/each}}
+                      {{/if}}
+                    </select>
                   </div>
                 </div>
-
-                <div class="container mt-4">
-                  <div class="form-group">
-                    <label for="searchInput">Search for Siblings</label>
-                    <div class="input-group mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Enter a family member name"
-                        id="searchInput"
-                      />
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Search</button>
-                      </div>
-                    </div>
-                    <div class="search-results" name="sibling">
-                      {{! <!-- Search results will be added dynamically here --> }}
-                    </div>
+                                <div class="row">
+                  <div class="col">
+                    <h4 class="h4 fs-6 md-3">If already added, select siblings:
+                    </h4>
+                    <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="sibling">
+                      {{#if familyMember}}
+                        {{#each familyMember}}
+                          <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                        {{/each}}
+                      {{/if}}
+                    </select>
                   </div>
                 </div>
-
-                <div class="container mt-4">
-                  <div class="form-group">
-                    <label for="searchInput">Search for Children</label>
-                    <div class="input-group mb-3">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Enter a family member name"
-                        id="searchInput"
-                      />
-                      <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button">Search</button>
-                      </div>
-                    </div>
-                    <div class="search-results" name="child">
-                      {{! <!-- Search results will be added dynamically here --> }}
-                    </div>
+      
+                                <div class="row">
+                  <div class="col">
+                    <h4 class="h4 fs-6 md-3">If already added, select children:
+                    </h4>
+                    <select class="form-select mb-3" size="5" multiple aria-label="size 3 select example" name="child">
+                      {{#if familyMember}}
+                        {{#each familyMember}}
+                          <option value="{{_id}}">{{firstName}} {{lastName}}</option>
+                        {{/each}}
+                      {{/if}}
+                    </select>
                   </div>
                 </div>
-
                 <button type="submit" class="btn btn-primary md-2">Submit</button>
 
               </form>
