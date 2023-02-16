@@ -9,7 +9,7 @@
             <form class="mb-0" action="/family/member/create" method="POST" enctype="multipart/form-data">
               <h4 class="h4 fs-6">Add Details About the New Family Member</h4>
 
-              {{! First name / Last name }}
+              {{! First name }}
               <div class="row">
                 <div class="col">
                   <div class="form-floating mb-3">
@@ -25,6 +25,8 @@
                   </div>
                 </div>
               </div>
+
+              {{!-- LastName --}}
               <div class="row">
                 <div class="col">
                   <div class="form-floating mb-3">
@@ -130,6 +132,8 @@
                   <input type="file" class="form-control" id="memberImg" name="memberImg" />
                 </div>
               </div>
+
+              {{!-- Parents --}}
               <div class="row">
                 <div class="col">
                   <h4 class="h4 fs-6 md-3">If already added, select parents:
@@ -143,6 +147,7 @@
                   </select>
                 </div>
               </div>
+              {{!-- Siblings --}}
               <div class="row">
                 <div class="col">
                   <h4 class="h4 fs-6 md-3">If already added, select siblings:
@@ -156,6 +161,8 @@
                   </select>
                 </div>
               </div>
+
+              {{!-- Children --}}
 
               <div class="row">
                 <div class="col">
