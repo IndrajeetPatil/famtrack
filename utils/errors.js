@@ -34,6 +34,6 @@ const errors = {
   },
 };
 
-const signalBadInput = (res, view, error) => res.status(400).render(view, error);
+const signalBadInput = (res, view, error) => res.status(400).render(view, { error, hideLogout: true } );
 
 module.exports = { errors, signalBadInput };
