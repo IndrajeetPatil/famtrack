@@ -74,9 +74,11 @@ router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
       }
 
       // Calculates age and adds it to the member object as "age" property
-      member.parent.forEach((parent) => (parent.age = calculateAgeFromBirthdate(parent.dateOfBirth)));
-      member.sibling.forEach((sibling) => (sibling.age = calculateAgeFromBirthdate(sibling.dateOfBirth)));
-      member.child.forEach((child) => (child.age = calculateAgeFromBirthdate(child.dateOfBirth)));
+
+
+      member.parent.forEach((parent) => (parent.age = calculateAgeFromBirthdate(parent.dateOfBirth, parent.dateOfDeath)));
+      member.sibling.forEach((sibling) => (sibling.age = calculateAgeFromBirthdate(sibling.dateOfBirth, sibling.dateOfDeath)));
+      member.child.forEach((child) => (child.age = calculateAgeFromBirthdate(child.dateOfBirth, child.dateOfDeath)));
 
       res.render("member/details", { member, readableDateOfBirth, readableDateOfDeath });
     })
