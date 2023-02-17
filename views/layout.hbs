@@ -26,9 +26,7 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
 
     {{! Mapbox }}
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
-
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css" rel="stylesheet" />
 
   </head>
 
@@ -62,14 +60,13 @@
               </li>
 
             </ul>
-            
+
             {{#unless hideLogout}}
-            <span class="navbar-text">
-              <a class="btn btn-outline-light" href="/logout">Log Out</a>
-            </span>
+              <span class="navbar-text">
+                <a class="btn btn-outline-light" href="/logout">Log Out</a>
+              </span>
             {{/unless}}
           </div>
-
 
         </div>
       </nav>
@@ -83,9 +80,10 @@
       <footer class="d-flex justify-content-center align-items-center bg-primary bg-opacity-10">
         <div class="container">
           <div class="row">
-            <div class="col p-4 p-sm-3 ">
+            <div class="col p-4 p-sm-3">
               <div class="d-flex justify-content-center align-items-center text-primary">
-                <i class="bi bi-exclamation-diamond-fill me-4 me-sm-2"></i>Disclaimer: This website is only for testing purposes – please do not use it.
+                <i class="bi bi-exclamation-diamond-fill me-4 me-sm-2"></i>Disclaimer: This website is only for testing
+                purposes – please do not use it.
               </div>
             </div>
           </div>
@@ -93,6 +91,9 @@
       </footer>
 
     </div>
+
+    {{! Mapbox }}
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
 
     {{! Script }}
     <script src="/js/script.js"></script>
