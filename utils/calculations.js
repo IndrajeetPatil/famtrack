@@ -4,7 +4,7 @@ const calculateAgeFromBirthdate = (birthdate, referenceDate) => {
   }
 
   const millisecondToYearConversion = 1000 * 60 * 60 * 24 * 365;
-  let age = Math.floor((referenceDate - new Date(birthdate)) / millisecondToYearConversion);
+  let age = Math.floor((referenceDate ?? new Date() - new Date(birthdate)) / millisecondToYearConversion);
   return age;
 }
 
