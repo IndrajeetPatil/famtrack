@@ -11,50 +11,52 @@ const { errors, signalBadInput } = require("../utils/errors");
 const { convertToReadableDate, calculateAgeFromBirthdate } = require("../utils/calculations");
 const { uploader, cloudinary } = require("../config/cloudinary");
 
-
-router.get("/family/member/create", isLoggedIn, (req, res, next) => {
-  const userId = req.session.currentUser._id;
-  let userFamilyMembers = [];
-
-  User.findById(userId)
-    .populate("family")
-    .then((user) => {
-      user.family.familyMembers.forEach((familyMemberId) => {
-        FamilyMember.findById(familyMemberId)
-          .then((member) => userFamilyMembers.push(member))
-          .then(() => res.render("member/create", { familyMember: userFamilyMembers }));
-      });
-    })
-    .catch((err) => next(err));
+router.get("/family/member/create", isLoggedIn, async (req, res, next) => {
+  try {
+    const userId = req.session.currentUser._id;
+    const user = await User.findById(userId).populate("family");
+    const memberArr = await FamilyMember.find({ _id: { $in: user.family.familyMembers } });
+    res.render("member/create", { familyMember: memberArr });
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.post("/family/member/create", uploader.single("memberImg"), async (req, res, next) => {
-  // input validation
-  if (req.body.dateOfDeath && req.body.dateOfBirth > req.body.dateOfDeath) {
-    return res.status(400).render("member/create", errors.deathBeforeBirth);
+  try {
+    if (req.body.dateOfDeath && req.body.dateOfBirth > req.body.dateOfDeath) {
+      return res.status(400).render("member/create", errors.deathBeforeBirth);
+    }
+
+    if (req.body.dateOfBirth > new Date()) {
+      return res.status(400).render("member/create", errors.birthInFuture);
+    }
+
+    const userId = req.session.currentUser._id;
+    const imgName = req.file?.originalname;
+    const imgPath = req.file?.path;
+    const publicId = req.file?.filename;
+    const { family } = await User.findById(userId);
+
+    const familyMember = await FamilyMember.create({
+      ...req.body,
+      imgName,
+      imgPath,
+      publicId,
+      family,
+    });
+
+    const addMemberToFamily = await Family.findByIdAndUpdate(family, { $push: { familyMembers: familyMember._id } });
+    const { parent, sibling, child, _id } = familyMember;
+
+    const updateParent = await FamilyMember.update({ _id: { $in: parent } }, { $set: { child: _id } }, { multi: true });
+    const updateSibling = await FamilyMember.update({ _id: { $in: sibling } },{ $set: { sibling: _id } },{ multi: true });
+    const updateChild = await FamilyMember.update({ _id: { $in: child } }, { $set: { parent: _id } }, { multi: true });
+
+    res.redirect(`/family/member/${familyMember._id}`);
+  } catch (error) {
+    next(error);
   }
-
-  if (req.body.dateOfBirth > new Date()) {
-    return res.status(400).render("member/create", errors.birthInFuture);
-  }
-
-  const userId = req.session.currentUser._id;
-  const imgName = req.file?.originalname;
-  const imgPath = req.file?.path;
-  const publicId = req.file?.filename;
-
-  User.findById(userId)
-    .populate("family")
-    .then((user) => {
-      const family = user.family;
-      FamilyMember.create({ ...req.body, imgName, imgPath, publicId, family }).then((familyMember) => {
-        const family = user.family._id;
-        Family.findByIdAndUpdate(family, { $push: { familyMembers: familyMember._id } }).then(() =>
-          res.redirect(`/family/member/${familyMember._id}`),
-        );
-      });
-    })
-    .catch((err) => next(err));
 });
 
 router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
@@ -72,9 +74,9 @@ router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
       }
 
       // Calculates age and adds it to the member object as "age" property
-      member.parent.forEach((parent) => parent.age = calculateAgeFromBirthdate(parent.dateOfBirth));
-      member.sibling.forEach((sibling) => sibling.age = calculateAgeFromBirthdate(sibling.dateOfBirth));
-      member.child.forEach((child) => child.age = calculateAgeFromBirthdate(child.dateOfBirth));
+      member.parent.forEach((parent) => (parent.age = calculateAgeFromBirthdate(parent.dateOfBirth)));
+      member.sibling.forEach((sibling) => (sibling.age = calculateAgeFromBirthdate(sibling.dateOfBirth)));
+      member.child.forEach((child) => (child.age = calculateAgeFromBirthdate(child.dateOfBirth)));
 
       res.render("member/details", { member, readableDateOfBirth, readableDateOfDeath });
     })
