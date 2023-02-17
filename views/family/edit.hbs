@@ -1,0 +1,37 @@
+{{#with family}}
+
+  <div class="container d-flex">
+    <div class="row flex-grow-1 justify-content-center align-items-center">
+      <div class="col col-sm-8 col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title mb-4">Update Family Name</h3>
+
+            <form class="mb-0" action="/family/{{_id}}/edit" method="POST">
+
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="familyName"
+                  id="familyName"
+                  placeholder="{{familyName}}"
+                  required
+                />
+                <label for="familyName">Family Name</label>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary py-3 mb-3" type="submit">Update</button>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+{{/with}}
