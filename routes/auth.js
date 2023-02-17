@@ -17,7 +17,7 @@ const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 // GET index page
-router.get("/", isLoggedOut, (req, res) => res.render("index"));
+router.get("/", isLoggedOut, (req, res) => res.render("index", { hideLogout: true }));
 
 // POST /auth/signup
 router.post("/auth/signup", isLoggedOut, (req, res, next) => {
@@ -78,7 +78,7 @@ router.post("/auth/signup", isLoggedOut, (req, res, next) => {
     })
     .catch((error) => {
       if (error instanceof mongoose.Error.ValidationError) {
-        res.status(500).render("index", { errorMessage: error.message });
+        res.status(500).render("index", { errorMessage: error.message, hideLogout: true });
       } else {
         next(error);
       }
@@ -86,7 +86,7 @@ router.post("/auth/signup", isLoggedOut, (req, res, next) => {
 });
 
 // GET /auth/login
-router.get("/auth/login", isLoggedOut, (req, res) => res.render("auth/login"));
+router.get("/auth/login", isLoggedOut, (req, res) => res.render("auth/login", { hideLogout: true }));
 
 // POST /auth/login
 router.post("/auth/login", isLoggedOut, (req, res, next) => {
@@ -120,7 +120,7 @@ router.post("/auth/login", isLoggedOut, (req, res, next) => {
 // GET /auth/logout
 router.get("/logout", isLoggedIn, (req, res) => {
   req.session.destroy((err) => {
-    if (err) return res.status(500).render("auth/logout", { errorMessage: err.message });
+    if (err) return res.status(500).render("auth/logout", { errorMessage: err.message, hideLogout: true });
     res.redirect("/");
   });
 });
