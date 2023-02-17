@@ -12,13 +12,11 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "family-photos",
-    allowed_formats: "jpg, jpeg, png, svg, gif",
+    allowed_formats: "jpg, jpeg, png, svg, gif, webp",
   },
 });
 
 const uploader = multer({ storage });
-
-
 
 module.exports = {
   uploader,
