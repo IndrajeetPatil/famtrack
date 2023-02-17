@@ -1,0 +1,32 @@
+{{#with family}}
+
+  <div class="container d-flex">
+    <div class="row flex-grow-1 justify-content-center align-items-center">
+      <div class="col col-sm-8 col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title mb-4">Delete Your Family</h3>
+
+            <form class="mb-0" action="/family/{{_id}}/delete" method="POST">
+
+              <div class="d-grid gap-2">
+                <button class="btn btn-danger py-3 mb-3" type="submit">Delete</button>
+              </div>
+
+              <div class="col align-items-center ms-auto">
+                <a class="btn btn-primary btn-sm p-2 px-sm-2 py-sm-1" href="/family/{{_id}}">
+                  <i class="bi bi-people m-0 me-sm-2"></i>
+                  <span class="d-none d-sm-inline">Back to family</span>
+                </a>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+{{/with}}
