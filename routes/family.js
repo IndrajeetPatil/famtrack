@@ -47,7 +47,7 @@ router.get("/family/:familyId", isLoggedIn, (req, res, next) => {
     .populate("familyMembers")
     .then((family) => {
       const numberOfMembers = family.familyMembers.length;
-      family.familyMembers.forEach((member) => (member.age = calculateAgeFromBirthdate(member.dateOfBirth)));
+      family.familyMembers.forEach((member) => (member.age = calculateAgeFromBirthdate(member.dateOfBirth, member.dateOfDeath)));
       const earliestBirthyear = calculateEarliestBirthyear(family.familyMembers);
 
       return res.render("family/details", {
