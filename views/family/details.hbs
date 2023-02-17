@@ -6,19 +6,27 @@
       <div class="container p-3 p-sm-5">
         <div class="row">
           <div class="container rounded-3 p-3 bg-white shadow-sm">
+
             <div class="row row-cols-auto mb-3">
+
               <div class="col">
                 <h3 class="h3 mb-0">{{familyName}}</h3>
               </div>
 
               <div class="col">
-                <a class="btn btn-outline-secondary btn-sm" href="/family/{{this._id}}/edit"><i
+                <a class="btn btn-outline-secondary btn-sm" href="/family/{{familyId}}/edit"><i
                     class="bi bi-pencil-square me-2"></i>Edit</a>
+              </div>
+
+              <div class="col">
+                <a class="btn btn-outline-secondary btn-sm" href="/family/{{familyId}}/delete"><i
+                    class="bi bi-trash me-2"></i>Delete</a>
               </div>
               
             </div>
 
             <div class="row row-cols-1 row-cols-md-auto">
+
               <div class="col">
                 <i class="bi bi-people me-2"></i><span>{{members.length}} member(s)</span>
               </div>
@@ -30,7 +38,9 @@
               <div class="col">
                 <i class="bi bi-clock-history me-2"></i><span>traced back to {{earliestBirthyear}}</span>
               </div>
+
             </div>
+
           </div>
         </div>
 

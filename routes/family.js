@@ -47,18 +47,41 @@ router.get("/family/:familyId", isLoggedIn, (req, res, next) => {
     .populate("familyMembers")
     .then((family) => {
       const numberOfMembers = family.familyMembers.length;
-
-      // Calculates age and adds it to the member object as "age" property
-      family.familyMembers.forEach((member) => {
-        const age = calculateAgeFromBirthdate(member.dateOfBirth);
-        member.age = age;
-      });
-
-      // Get earliest birth year
+      family.familyMembers.forEach((member) => (member.age = calculateAgeFromBirthdate(member.dateOfBirth)));
       const earliestBirthyear = calculateEarliestBirthyear(family.familyMembers);
 
       return res.render("family/details", {
         familyName: family.familyName,
+        familyId: family._id,
+        members: family.familyMembers,
+        numberOfMembers,
+        earliestBirthyear,
+      });
+    })
+    .catch((err) => next(err));
+});
+
+router.get("/family/:familyId/edit", isLoggedIn, (req, res, next) => {
+  const familyId = req.params.familyId;
+
+  Family.findById(familyId)
+    .then((family) => res.render("family/edit", { family }))
+    .catch((err) => next(err));
+});
+
+router.post("/family/:familyId/edit", isLoggedIn, (req, res, next) => {
+  const familyId = req.params.familyId;
+
+  Family.findByIdAndUpdate(familyId, { familyName: req.body.familyName }, { new: true })
+    .populate("familyMembers")
+    .then((family) => {
+      const numberOfMembers = family.familyMembers.length;
+      family.familyMembers.forEach((member) => (member.age = calculateAgeFromBirthdate(member.dateOfBirth)));
+      const earliestBirthyear = calculateEarliestBirthyear(family.familyMembers);
+
+      return res.render("family/details", {
+        familyName: family.familyName,
+        familyId: family._id,
         members: family.familyMembers,
         numberOfMembers,
         earliestBirthyear,
