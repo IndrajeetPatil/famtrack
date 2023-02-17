@@ -91,8 +91,7 @@ router.post("/family/:familyId/edit", isLoggedIn, (req, res, next) => {
 });
 
 router.get("/family/:familyId/delete", isLoggedIn, (req, res, next) => {
-  const user = req.session.currentUser;
-  const familyId = user.family._id;
+  const familyId = req.params.familyId;
 
   Family.findById(familyId)
     .then((family) => res.render("family/delete", { family }))
