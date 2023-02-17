@@ -90,4 +90,21 @@ router.post("/family/:familyId/edit", isLoggedIn, (req, res, next) => {
     .catch((err) => next(err));
 });
 
+router.get("/family/:familyId/delete", isLoggedIn, (req, res, next) => {
+  const user = req.session.currentUser;
+  const familyId = user.family._id;
+
+  Family.findById(familyId)
+    .then((family) => res.render("family/delete", { family }))
+    .catch((err) => next(err));
+});
+
+router.post("/family/:familyId/delete", isLoggedIn, (req, res, next) => {
+  const familyId = req.params.familyId;
+
+  Family.findByIdAndDelete(familyId, { new: true })
+    .then(() => res.render("start"))
+    .catch((err) => next(err));
+});
+
 module.exports = router;
