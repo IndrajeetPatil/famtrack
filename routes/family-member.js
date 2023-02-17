@@ -8,7 +8,9 @@ const FamilyMember = require("../models/FamilyMember");
 const Family = require("../models/Family");
 
 const { errors, signalBadInput } = require("../utils/errors");
-const { convertToReadableDate, calculateAgeFromBirthdate } = require("../utils/calculations");
+
+const { convertToReadableDate, calculateAgeFromBirthdate, filterMembers } = require("../utils/calculations");
+
 const { uploader, cloudinary } = require("../config/cloudinary");
 
 router.get("/family/member/create", isLoggedIn, async (req, res, next) => {
@@ -66,11 +68,11 @@ router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
     .populate("child")
     .populate("family")
     .then((member) => {
-      const readableDateOfBirth = convertToReadableDate(member.dateOfBirth);
+      const readableDateOfBirth = convertToReadableDate(member.dateOfBirth, ".");
       let readableDateOfDeath;
 
       if (member.dateOfDeath) {
-        readableDateOfDeath = convertToReadableDate(member.dateOfDeath);
+        readableDateOfDeath = convertToReadableDate(member.dateOfDeath, ".");
       }
 
       // Calculates age and adds it to the member object as "age" property
@@ -85,11 +87,44 @@ router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
     .catch((err) => next(err));
 });
 
-router.get("/family/member/:memberId/edit", isLoggedIn, (req, res, next) => {
-  FamilyMember.findById(req.params.memberId)
-    .then((member) => res.render("member/edit", { member }))
-    .catch((err) => next(err));
+router.get("/family/member/:memberId/edit", isLoggedIn, async (req, res, next) => {
+  try {
+    const member = await FamilyMember.findById(req.params.memberId);
+    const { parent, sibling, child, dateOfBirth, dateOfDeath, family } = member;
+    const selectedParents = [...parent];
+    const selectedSiblings = [...sibling];
+    const selectedChildren = [...child];
+    const readableDateOfBirth = convertToReadableDate(dateOfBirth, "/");
+    const readableDateOfDeath = dateOfDeath ? convertToReadableDate(dateOfDeath, "/") : null;
+
+    const allMembersOfFamily = await Family.findById(family);
+    const { familyMembers: members } = allMembersOfFamily;
+    const filteredParents = filterMembers(members, selectedParents);
+    const filteredSiblings = filterMembers(members, selectedSiblings);
+    const filteredChildren = filterMembers(members, selectedChildren);
+
+    console.log("sp", selectedParents)
+    console.log("sc", selectedChildren)
+
+    console.log("parents",filteredParents)
+    console.log("children",filteredChildren)
+
+    res.render("member/edit", {
+      member,
+      selectedParents,
+      selectedSiblings,
+      selectedChildren,
+      filteredParents,
+      filteredSiblings,
+      filteredChildren,
+      readableDateOfBirth,
+      readableDateOfDeath,
+    });
+  } catch (err) {
+    next(err);
+  }
 });
+
 
 router.post("/family/member/:memberId/edit", uploader.single("family-member-photo"), (req, res, next) => {
   const imgName = req.file.originalname;
