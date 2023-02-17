@@ -12,23 +12,65 @@ const { convertToReadableDate, calculateAgeFromBirthdate } = require("../utils/c
 const { uploader, cloudinary } = require("../config/cloudinary");
 
 
-router.get("/family/member/create", isLoggedIn, (req, res, next) => {
-  const userId = req.session.currentUser._id;
-  let userFamilyMembers = [];
-
-  User.findById(userId)
-    .populate("family")
-    .then((user) => {
-      user.family.familyMembers.forEach((familyMemberId) => {
-        FamilyMember.findById(familyMemberId)
-          .then((member) => userFamilyMembers.push(member))
-          .then(() => res.render("member/create", { familyMember: userFamilyMembers }));
-      });
-    })
-    .catch((err) => next(err));
-});
+router.get("/family/member/create", isLoggedIn, async (req, res, next) => {
+  try {
+    const userId = req.session.currentUser._id;
+    const user = await User.findById(userId).populate("family")
+    const memberArr  = await FamilyMember.find({ _id : { $in: user.family.familyMembers} }  )  
+    res.render("member/create",{ familyMember: memberArr })
+  } catch (error) {
+    next(error)
+  }
+})
 
 router.post("/family/member/create", uploader.single("memberImg"), async (req, res, next) => {
+  try {
+    
+    if (req.body.dateOfDeath && req.body.dateOfBirth > req.body.dateOfDeath) {
+      return res.status(400).render("member/create", errors.deathBeforeBirth);
+    }
+  
+    if (req.body.dateOfBirth > new Date()) {
+      return res.status(400).render("member/create", errors.birthInFuture);
+    }
+  
+    const userId = req.session.currentUser._id;
+    const imgName = req.file?.originalname;
+    const imgPath = req.file?.path;
+    const publicId = req.file?.filename;
+
+    const { family } = await User.findById(userId);
+  
+    const familyMember = await FamilyMember.create({
+      ...req.body,
+      imgName,
+      imgPath,
+      publicId,
+      family
+    });
+
+    const addMemberToFamily = await Family.findByIdAndUpdate(family, { $push: { familyMembers: familyMember._id } });
+
+    const { parent, sibling, child, _id} = familyMember;
+
+    parent.forEach(parent =>  FamilyMember.findByIdAndUpdate(parent, { $push: { child : _id }}))
+    sibling.forEach(sibling =>{  
+      console.log(sibling)
+      FamilyMember.findByIdAndUpdate(sibling, { $push: { sibling : _id }})
+    })
+    
+    child.forEach(child =>  FamilyMember.findByIdAndUpdate(child, { $push: { parent : _id }}))
+
+  
+    res.redirect(`/family/member/${familyMember._id}`);
+  } catch (error) {
+    next(error)
+    }
+  })
+
+
+
+/* router.post("/family/member/create", uploader.single("memberImg"), async (req, res, next) => {
   // input validation
   if (req.body.dateOfDeath && req.body.dateOfBirth > req.body.dateOfDeath) {
     return res.status(400).render("member/create", errors.deathBeforeBirth);
@@ -55,7 +97,7 @@ router.post("/family/member/create", uploader.single("memberImg"), async (req, r
       });
     })
     .catch((err) => next(err));
-});
+}); */
 
 router.get("/family/member/:memberId", isLoggedIn, (req, res, next) => {
   FamilyMember.findById(req.params.memberId)
